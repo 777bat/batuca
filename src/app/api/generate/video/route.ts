@@ -31,6 +31,16 @@ export async function POST(req: Request) {
 
         const { action, prompt, model, ratio, duration, task_id } = body;
 
+        if (action === 'mark-failed') {
+            const { task_id } = body
+            if (!task_id) return NextResponse.json({ error: 'task_id is required.' }, { status: 400 })
+            await supabaseAdmin.from('generations')
+                .update({ status: 'failed' })
+                .eq('task_id', task_id)
+                .in('status', ['pending', 'processing'])
+            return NextResponse.json({ success: true })
+        }
+
         if (action === 'generate') {
             if (!prompt) return NextResponse.json({ error: 'Prompt is required.' }, { status: 400 })
             if (prompt.length > MAX_PROMPT_LENGTH) {

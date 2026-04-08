@@ -285,7 +285,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                             const cleanPrev = prev.filter(p => p.id !== taskId);
                             return [{ id: taskId, url: '', prompt: prompt, model: model, status: 'error' }, ...cleanPrev];
                         });
-                        toast.error('Tempo limite de geração excedido.');
+                        toast.error('Tempo limite excedido.');
                     }
                 } catch (pollErr) {
                     console.error('Polling error:', pollErr);
@@ -744,7 +744,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                             const cleanPrev = prev.filter(p => p.id !== taskId);
                             return [{ id: taskId, url: '', prompt: prompt, model: model, status: 'error' }, ...cleanPrev];
                         });
-                        toast.error('Tempo limite de geração excedido.');
+                        toast.error('Tempo limite excedido.');
                     }
                 } catch (pollErr) {
                     console.error('Polling error:', pollErr);
@@ -1146,7 +1146,18 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                     if (attempts >= maxAttempts) {
                         clearInterval(pollId);
                         setLoading(false);
-                        console.error('Polling timeout');
+                        // Mark as failed in UI when polling times out
+                        setResults(prev => prev.map(p =>
+                            p.id === taskId && ((p as any).status === 'PROCESSING' || (p as any).status === 'PENDING')
+                                ? { ...p, title: p.title?.replace(' (Gerando...)', '') || 'Musica', status: 'FAILED' }
+                                : p
+                        ));
+                        // Also mark as failed in DB
+                        fetch('/api/generate/audio', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ action: 'mark-failed', task_id: taskId })
+                        }).catch(() => {});
                     }
                 } catch (pollErr) {
                     console.error('Polling error:', pollErr);

@@ -63,6 +63,15 @@ export async function POST(req: Request) {
 
             const status = data.data?.status || data.status
 
+            // Handle error statuses from Suno
+            const errorStatuses = ['FAILED', 'ERROR', 'CREATE_TASK_FAILED', 'GENERATE_AUDIO_FAILED', 'SENSITIVE_CONTENT_DETECTED']
+            if (errorStatuses.includes(status)) {
+                await supabaseAdmin.from('generated_musics')
+                    .update({ status: 'FAILED' })
+                    .eq('task_id', task_id)
+                return NextResponse.json(data)
+            }
+
             // Extract clips from response (Suno returns sunoData array)
             const rawResponse = data.data?.response || data.data?.clips || data.response || data.clips
             let tracksToSave: any[] = []
@@ -142,6 +151,18 @@ export async function POST(req: Request) {
             }
 
             return NextResponse.json(data)
+        }
+
+        else if (action === 'mark-failed') {
+            // Called by frontend when polling times out
+            if (!task_id) {
+                return NextResponse.json({ error: 'task_id is required.' }, { status: 400 })
+            }
+            await supabaseAdmin.from('generated_musics')
+                .update({ status: 'FAILED' })
+                .eq('task_id', task_id)
+                .in('status', ['PENDING', 'PROCESSING', 'TEXT_SUCCESS', 'FIRST_SUCCESS'])
+            return NextResponse.json({ success: true })
         }
 
         else if (action === 'generate') {
