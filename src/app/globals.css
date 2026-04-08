@@ -1,0 +1,543 @@
+@import "tailwindcss";
+
+@theme {
+  /* Core backgrounds - matching Cinematic Minimalist */
+  --color-background: #030303;
+  --color-surface: #0A0A0A;
+  --color-surface-2: #111111;
+  --color-surface-3: #1A1A1A;
+  --color-border: #444444;
+  --color-border-hover: #FFFFFF;
+  --color-primary: #FFFFFF;
+
+  /* Text colors */
+  --color-text-primary: #E0E0E0;
+  --color-text-secondary: #A0A0A0;
+  --color-text-muted: #444444;
+
+  /* Brand accent */
+  --color-accent: #FF3366;
+  --color-accent-hover: #FF1A53;
+  --color-accent-glow: rgba(255, 51, 102, 0.25);
+  --color-accent-dim: rgba(255, 51, 102, 0.1);
+
+  /* Secondary accent */
+  --color-neon: #FF3366;
+
+  /* Functional colors */
+  --color-green: #10b981;
+  --color-green-glow: rgba(16, 185, 129, 0.15);
+  --color-blue: #3b82f6;
+  --color-violet: #8b5cf6;
+
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+
+  /* Global zero border-radius override for precise geometry */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 0px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ============================================================
+   DESIGN SYSTEM UTILITIES
+   ============================================================ */
+
+/* Glow effects */
+.glow-accent {
+  box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+.glow-green {
+  box-shadow: 0 0 20px var(--color-green-glow);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #f0426e, #ff8fa3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   GLASS / FROSTED CARDS
+   Following the landing page aesthetic: dark glass on black
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 4px 24px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s ease;
+}
+
+.glass:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 4px 32px rgba(240, 66, 110, 0.1);
+}
+
+/* Inner top-edge highlight */
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ============================================================
+   BUTTONS — Primary, Ghost
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 0px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  outline: none;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #000000;
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================================
+   INPUT FIELDS
+   ============================================================ */
+.input {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0px;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 300;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+  outline: none;
+  width: 100%;
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  box-shadow: none;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0px;
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  border-color: var(--color-primary);
+}
+
+.card-interactive {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-interactive:hover {
+  border-color: var(--color-primary);
+}
+
+/* Modals */
+.modal-overlay {
+  background: rgba(3, 3, 3, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   BADGES / TAGS
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 6px;
+}
+
+.badge-accent {
+  background: rgba(240, 66, 110, 0.12);
+  color: var(--color-accent);
+  border: 1px solid rgba(240, 66, 110, 0.25);
+}
+
+.badge-blue {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.badge-violet {
+  background: rgba(139, 92, 246, 0.12);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.badge-green {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* ============================================================
+   PAGE HEADER (sticky top bar in inner pages)
+   ============================================================ */
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(3, 3, 3, 0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 16px 24px;
+}
+
+/* ============================================================
+   SECTION LABEL
+   ============================================================ */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+.divider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  background: linear-gradient(135deg, #030303, #1a0510, #030303, #0a0310);
+  background-size: 400% 400%;
+  animation: gradient-shift 12s ease infinite;
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(240, 66, 110, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(240, 66, 110, 0.4), 0 0 60px rgba(240, 66, 110, 0.15);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-surface-2) 50%, var(--color-surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+/* ============================================================
+   GRID OVERLAY
+   ============================================================ */
+.grid-overlay {
+  background-image:
+    linear-gradient(rgba(240, 66, 110, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 66, 110, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ============================================================
+   SCROLLBAR HIDING
+   ============================================================ */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
+   MASONRY
+   ============================================================ */
+.masonry-grid {
+  columns: 4;
+  column-gap: 0px;
+}
+
+@media (max-width: 1280px) {
+  .masonry-grid {
+    columns: 3;
+  }
+}
+
+@media (max-width: 900px) {
+  .masonry-grid {
+    columns: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .masonry-grid {
+    columns: 1;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 0px;
+  position: relative;
+}
+
+.masonry-item:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 3, 3, 0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.masonry-item:hover:after {
+  opacity: 0.2;
+}
+
+/* ============================================================
+   VIDEO CARD
+   ============================================================ */
+.video-card:hover .video-overlay {
+  opacity: 1;
+}
+
+/* ============================================================
+   NAV ITEM ACTIVE STATE (accent left border)
+   ============================================================ */
+.nav-active {
+  background: rgba(240, 66, 110, 0.08);
+  color: white;
+  position: relative;
+}
+
+.nav-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  height: 50%;
+  width: 2px;
+  background: var(--color-accent);
+  border-radius: 0 2px 2px 0;
+}
+
+/* ============================================================
+   STATUS DOT
+   ============================================================ */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-dot-green {
+  background: var(--color-green);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.7);
+}
+
+.status-dot-accent {
+  background: var(--color-accent);
+  box-shadow: 0 0 6px rgba(240, 66, 110, 0.7);
+}
+
+/* ============================================================
+   FILTER CHIP
+   ============================================================ */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.chip:hover {
+  border-color: var(--color-border-hover);
+  color: var(--color-text-primary);
+}
+
+.chip-active {
+  background: rgba(240, 66, 110, 0.1);
+  border-color: rgba(240, 66, 110, 0.4);
+  color: var(--color-accent);
+}
