@@ -63,7 +63,7 @@ export function Sidebar() {
             const { data: { user } } = await supabase.auth.getUser()
             if (user) {
                 try {
-                    const res = await fetch(`/api/user/credits?user_id=${user.id}`)
+                    const res = await fetch('/api/user/credits')
                     const data = await res.json()
                     if (typeof data.credits === 'number') setCredits(data.credits)
                     if (data.role) setRole(data.role)

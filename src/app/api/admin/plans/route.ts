@@ -23,6 +23,9 @@ async function requireAdmin() {
 
 export async function GET() {
     try {
+        const adminId = await requireAdmin();
+        if (!adminId) return NextResponse.json({ error: 'Unauthorized.' }, { status: 403 })
+
         const { data: plans, error } = await supabaseAdmin
             .from('subscription_plans')
             .select('*')

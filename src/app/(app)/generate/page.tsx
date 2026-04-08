@@ -94,7 +94,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
         const fetchHistory = async () => {
             try {
-                const res = await fetch(`/api/assets?user_id=${userId}`);
+                const res = await fetch('/api/assets');
                 if (res.ok) {
                     const data = await res.json();
                     const images = data.filter((d: any) => d.type === 'image');
@@ -172,7 +172,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                     resolution: resolution,
                     output_format: outputFormat,
                     image_input: imageInput ? [imageInput] : [],
-                    user_id: userId
+
                 })
             });
             const data = await response.json();
@@ -569,7 +569,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
         const fetchHistory = async () => {
             try {
-                const res = await fetch(`/api/assets?user_id=${userId}`);
+                const res = await fetch('/api/assets');
                 if (res.ok) {
                     const data = await res.json();
                     const videos = data.filter((d: any) => d.type === 'video');
@@ -648,7 +648,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                     model,
                     ratio,
                     duration,
-                    user_id: userId
+
                 })
             });
             const data = await response.json();
@@ -963,6 +963,8 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
     const [instrumental, setInstrumental] = useState(false)
     const [availableModels, setAvailableModels] = useState<any[]>([])
     const [model, setModel] = useState('')
+    const [negativeTags, setNegativeTags] = useState('')
+    const [vocalGender, setVocalGender] = useState<'' | 'm' | 'f'>('')
     const [loading, setLoading] = useState(false)
     const [generatingLyrics, setGeneratingLyrics] = useState(false)
     const [results, setResults] = useState<{ id?: string, url: string; title: string; image_url?: string }[]>([])
@@ -975,7 +977,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
         const fetchHistory = async () => {
             try {
-                const res = await fetch(`/api/musics?user_id=${userId}`)
+                const res = await fetch('/api/musics')
                 const data = await res.json()
                 if (Array.isArray(data)) {
                     setResults(data.map(d => ({
@@ -1023,7 +1025,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
             const response = await fetch('/api/generate/audio', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'generate', prompt, style, title, customMode, instrumental, model, user_id: userId })
+                body: JSON.stringify({ action: 'generate', prompt, style, title, customMode, instrumental, model, negativeTags: negativeTags || undefined, vocalGender: vocalGender || undefined })
             })
             const data = await response.json()
 
@@ -1079,115 +1081,66 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                     // checkData.data.status or checkData.status is returned.
                     const status = checkData.data?.status || checkData.status;
 
-                    if (status === 'SUCCESS' || status === 'completed') {
+                    // Helper: extract clips from Suno response
+                    const extractClips = () => {
+                        const raw = checkData.data?.response || checkData.data?.clips || checkData.response || checkData.clips;
+                        if (!raw) return [];
+                        if (Array.isArray(raw)) return raw;
+                        if (Array.isArray(raw.sunoData)) return raw.sunoData;
+                        return Object.values(raw).filter((v: any) => v && typeof v === 'object' && v.id);
+                    };
+
+                    // Helper: get best audio URL from a clip
+                    const getBestUrl = (c: any) =>
+                        c.sourceAudioUrl || c.source_audio_url ||
+                        c.audioUrl || c.audio_url ||
+                        c.streamAudioUrl || c.stream_audio_url ||
+                        c.sourceStreamAudioUrl || c.source_stream_audio_url || '';
+
+                    const isFinal = status === 'SUCCESS' || status === 'completed';
+                    const hasAudio = status === 'TEXT_SUCCESS' || status === 'FIRST_SUCCESS' || isFinal;
+                    const isFailed = status === 'FAILED' || status === 'error' || status === 'CREATE_TASK_FAILED';
+
+                    if (isFinal) {
                         clearInterval(pollId);
                         setLoading(false);
+                    }
 
-                        // Extract music clip URL
-                        let rawClips = checkData.data?.response || checkData.data?.clips || checkData.response || checkData.clips;
-                        let newTracks: any[] = [];
-
-                        if (rawClips) {
-                            if (Array.isArray(rawClips)) {
-                                newTracks = rawClips;
-                            } else if (typeof rawClips === 'object') {
-                                if (Array.isArray(rawClips.sunoData)) {
-                                    newTracks = rawClips.sunoData;
-                                } else {
-                                    newTracks = Object.values(rawClips).filter((v: any) => v && typeof v === 'object' && (v.id || v.audioUrl || v.audio_url || v.streamAudioUrl || v.stream_audio_url));
-                                }
-                            }
-
-                            newTracks = newTracks.map((c: any) => ({
-                                id: c.id || c.task_id || taskId,
-                                url: c.audioUrl || c.audio_url || c.streamAudioUrl || c.stream_audio_url || '',
-                                title: c.title || prompt.slice(0, 40) || 'Música Gerada',
-                                image_url: c.imageUrl || c.image_url || '',
-                                status: status
-                            }));
+                    if (hasAudio) {
+                        const clips = extractClips();
+                        if (clips.length > 0) {
+                            const newTracks = clips
+                                .filter((c: any) => getBestUrl(c))
+                                .map((c: any) => ({
+                                    id: c.id || c.task_id || taskId,
+                                    url: getBestUrl(c),
+                                    title: c.title || prompt.slice(0, 40) || 'Musica Gerada',
+                                    image_url: c.imageUrl || c.image_url || '',
+                                    status: isFinal ? 'SUCCESS' : 'PROCESSING'
+                                }));
 
                             if (newTracks.length > 0) {
                                 setResults(prev => {
-                                    // Remove the temporary task placeholder
-                                    let cleanPrev = prev.filter(p => (p as any).id !== taskId && !p.title?.includes('(Preparando gerador...)'));
-                                    // Replace processing tracks or prepend them
-                                    const filtered = cleanPrev.filter(p => !newTracks.find(n => n.id === (p as any).id));
+                                    const cleanPrev = prev.filter(p => p.id !== taskId && !p.title?.includes('(Preparando'));
+                                    const filtered = cleanPrev.filter(p => !newTracks.find((n: any) => n.id === p.id));
                                     return [...newTracks, ...filtered];
                                 });
-                            } else {
-                                setResults(prev => {
-                                    let clean = prev.filter(p => p.id !== taskId);
-                                    return [{ id: taskId, url: '', title: 'Formato de áudio não suportado', status: 'FAILED' }, ...clean];
-                                });
                             }
-                        } else {
-                            setResults(prev => {
-                                let clean = prev.filter(p => p.id !== taskId);
-                                return [{ id: taskId, url: '', title: 'Falha ao buscar áudio', status: 'FAILED' }, ...clean];
-                            })
                         }
-                    } else if (status === 'FAILED' || status === 'error') {
+                    } else if (isFailed) {
                         clearInterval(pollId);
                         setLoading(false);
-                        console.error('Task failed', checkData);
                         setResults(prev => {
-                            let clean = prev.filter(p => p.id !== taskId);
-                            return [{ id: taskId, url: '', title: 'Erro ao gerar música', status: status }, ...clean];
-                        })
+                            const clean = prev.filter(p => p.id !== taskId);
+                            return [{ id: taskId, url: '', title: 'Erro ao gerar musica', status: 'FAILED' }, ...clean];
+                        });
                     } else {
-                        // Processing/Running - attempt to load stream_audio_url
-                        let rawClips = checkData.data?.response || checkData.data?.clips || checkData.response || checkData.clips;
-
-                        if (rawClips) {
-                            let partialTracks: any[] = [];
-                            let clipArr: any[] = [];
-
-                            if (Array.isArray(rawClips)) {
-                                clipArr = rawClips;
-                            } else if (typeof rawClips === 'object') {
-                                if (Array.isArray(rawClips.sunoData)) {
-                                    clipArr = rawClips.sunoData;
-                                } else {
-                                    clipArr = Object.values(rawClips).filter((v: any) => v && typeof v === 'object' && (v.id || v.audioUrl || v.audio_url || v.streamAudioUrl || v.stream_audio_url));
-                                }
-                            }
-
-                            partialTracks = clipArr
-                                .filter((c: any) => c.stream_audio_url || c.streamAudioUrl || c.audioUrl || c.audio_url)
-                                .map((c: any) => ({
-                                    id: c.id || c.task_id || taskId,
-                                    url: c.streamAudioUrl || c.stream_audio_url || c.audioUrl || c.audio_url,
-                                    title: `${c.title || prompt.slice(0, 40)} (Processando preview...)`,
-                                    image_url: c.imageUrl || c.image_url || '',
-                                    status: status
-                                }));
-
-                            if (partialTracks.length > 0) {
-                                setResults(prev => {
-                                    const cleanPrev = prev.filter(p => (p as any).id !== taskId && !p.title?.includes('(Preparando gerador...)'));
-                                    const existingIds = cleanPrev.map(p => (p as any).id);
-                                    let needsUpdate = false;
-                                    const updated = cleanPrev.map(p => {
-                                        const pId = (p as any).id;
-                                        const found = partialTracks.find(pt => pt.id === pId);
-                                        if (found && found.url !== p.url) {
-                                            needsUpdate = true;
-                                            return found;
-                                        }
-                                        return p;
-                                    });
-
-                                    partialTracks.forEach(pt => {
-                                        if (!existingIds.includes(pt.id)) {
-                                            updated.unshift(pt);
-                                            needsUpdate = true;
-                                        }
-                                    });
-
-                                    return needsUpdate ? updated : prev;
-                                });
-                            }
-                        }
+                        // PENDING/PROCESSING - update placeholder title
+                        setResults(prev => prev.map(p =>
+                            p.id === taskId
+                                ? { ...p, title: `${title || prompt?.slice(0, 40) || 'Nova Musica'} (Gerando...)`, status: 'PROCESSING' }
+                                : p
+                        ));
                     }
 
                     if (attempts >= maxAttempts) {
@@ -1277,20 +1230,17 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
     const getStatusBadge = (status?: string) => {
         if (!status) return null;
-        switch (status.toUpperCase()) {
-            case 'SUCCESS':
-            case 'COMPLETED':
-                return <div className="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-full text-[10px] font-medium uppercase tracking-wider w-fit">Concluído</div>;
-            case 'FAILED':
-            case 'ERROR':
-                return <div className="px-2 py-0.5 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full text-[10px] font-medium uppercase tracking-wider w-fit">Erro</div>;
-            case 'PENDING':
-            case 'PROCESSING':
-            case 'RUNNING':
-                return <div className="px-2 py-0.5 bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 rounded-full text-[10px] font-medium uppercase tracking-wider w-fit flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Processando</div>;
-            default:
-                return null;
+        const s = status.toUpperCase();
+        if (s === 'SUCCESS' || s === 'COMPLETED' || s === 'TEXT_SUCCESS' || s === 'FIRST_SUCCESS') {
+            return <div className="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-full text-[10px] font-medium uppercase tracking-wider w-fit">Concluido</div>;
         }
+        if (s === 'FAILED' || s === 'ERROR' || s === 'CREATE_TASK_FAILED') {
+            return <div className="px-2 py-0.5 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full text-[10px] font-medium uppercase tracking-wider w-fit">Erro</div>;
+        }
+        if (s === 'PENDING' || s === 'PROCESSING' || s === 'RUNNING') {
+            return <div className="px-2 py-0.5 bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 rounded-full text-[10px] font-medium uppercase tracking-wider w-fit flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Processando</div>;
+        }
+        return null;
     }
 
     return (
@@ -1422,7 +1372,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
                 {/* Model Selection */}
                 <div className="bg-surface-2 border border-border rounded-2xl p-4">
-                    <label className="text-sm font-medium text-text-secondary block mb-2">Versão do Modelo</label>
+                    <label className="text-sm font-medium text-text-secondary block mb-2">Versao do Modelo</label>
                     <div className="relative">
                         <select
                             value={model}
@@ -1431,7 +1381,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         >
                             {availableModels.map(m => (
                                 <option key={m.model_id} value={m.model_id}>
-                                    {m.name} (⚡ {m.cost})
+                                    {m.name} ({m.cost} creditos)
                                 </option>
                             ))}
                             {availableModels.length === 0 && <option value="">Carregando modelos...</option>}
@@ -1439,6 +1389,42 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" />
                     </div>
                 </div>
+
+                {/* Vocal Gender (Custom Mode only) */}
+                {customMode && !instrumental && (
+                    <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                        <label className="text-sm font-medium text-text-secondary block mb-2">Genero Vocal</label>
+                        <div className="flex gap-2">
+                            {[{ value: '', label: 'Auto' }, { value: 'm', label: 'Masculino' }, { value: 'f', label: 'Feminino' }].map(opt => (
+                                <button
+                                    key={opt.value}
+                                    onClick={() => setVocalGender(opt.value as '' | 'm' | 'f')}
+                                    className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all ${vocalGender === opt.value
+                                        ? 'bg-emerald-600 text-white'
+                                        : 'bg-surface border border-border text-text-secondary hover:border-emerald-500/50'
+                                        }`}
+                                >
+                                    {opt.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Negative Tags (Custom Mode only) */}
+                {customMode && (
+                    <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                        <label className="text-sm font-medium text-text-secondary block mb-2">Estilos a Evitar</label>
+                        <input
+                            type="text"
+                            value={negativeTags}
+                            onChange={e => setNegativeTags(e.target.value)}
+                            placeholder="Ex: autotune, screaming, heavy metal"
+                            className="w-full bg-surface border border-border rounded-xl p-3 text-white placeholder-[#555568] text-sm focus:outline-none focus:border-emerald-500 transition-colors"
+                        />
+                        <p className="text-[10px] text-text-muted mt-1">Separe por virgula os estilos que nao deseja</p>
+                    </div>
+                )}
 
                 <button
                     onClick={handleGenerate}
@@ -1457,7 +1443,9 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         </>
                     )}
                 </button>
-                <p className="text-xs text-center text-text-muted">⚡ 10 créditos por geração</p>
+                <p className="text-xs text-center text-text-muted">
+                    {availableModels.find(m => m.model_id === model)?.cost || '...'} creditos por geracao
+                </p>
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-3">
@@ -1494,10 +1482,27 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
                                     {track.url && (
                                         <div className="flex gap-2">
-                                            <button className="p-2.5 bg-surface-2 text-text-secondary hover:bg-surface-3 hover:text-emerald-500 rounded-lg transition-colors">
-                                                <a href={track.url} target="_blank" rel="noopener noreferrer" download>
-                                                    <Download className="w-4 h-4" />
-                                                </a>
+                                            <button
+                                                className="p-2.5 bg-surface-2 text-text-secondary hover:bg-surface-3 hover:text-emerald-500 rounded-lg transition-colors"
+                                                onClick={async (e) => {
+                                                    e.stopPropagation()
+                                                    try {
+                                                        const res = await fetch(track.url)
+                                                        const blob = await res.blob()
+                                                        const blobUrl = URL.createObjectURL(blob)
+                                                        const a = document.createElement('a')
+                                                        a.href = blobUrl
+                                                        a.download = `${track.title || 'musica'}.mp3`
+                                                        document.body.appendChild(a)
+                                                        a.click()
+                                                        document.body.removeChild(a)
+                                                        URL.revokeObjectURL(blobUrl)
+                                                    } catch {
+                                                        window.open(track.url, '_blank')
+                                                    }
+                                                }}
+                                            >
+                                                <Download className="w-4 h-4" />
                                             </button>
                                         </div>
                                     )}
@@ -1549,7 +1554,7 @@ export default function GeneratePage() {
     const refreshCredits = useCallback(async () => {
         if (!userId) return
         try {
-            const res = await fetch(`/api/user/credits?user_id=${userId}`)
+            const res = await fetch('/api/user/credits')
             const data = await res.json()
             if (typeof data.credits === 'number') {
                 setUserCredits(data.credits)

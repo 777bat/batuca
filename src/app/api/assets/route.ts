@@ -1,25 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseAdmin = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+)
 
-export async function GET(req: NextRequest) {
+async function getAuthUser() {
+    const supabase = await createClient()
+    const { data: { user }, error } = await supabase.auth.getUser()
+    if (error || !user) return null
+    return user
+}
+
+export async function GET() {
     try {
-        const userId = req.nextUrl.searchParams.get('user_id')
-
-        if (!userId) {
-            return NextResponse.json({ error: 'user_id is required' }, { status: 400 });
+        const user = await getAuthUser()
+        if (!user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
         // Fetch musics
-        const { data: musics, error: musicError } = await supabase
+        const { data: musics, error: musicError } = await supabaseAdmin
             .from('generated_musics')
             .select('*')
-            .eq('user_id', userId)
+            .eq('user_id', user.id)
             .order('created_at', { ascending: false })
 
         if (musicError) {
@@ -30,21 +38,21 @@ export async function GET(req: NextRequest) {
         const musicAssets = (musics || []).map(m => ({
             id: m.id || m.task_id,
             type: 'audio',
-            prompt: m.prompt || 'Música sem descrição',
-            title: m.title || 'Música Gerada',
+            prompt: m.prompt || 'Musica sem descricao',
+            title: m.title || 'Musica Gerada',
             createdAt: m.created_at,
-            status: m.status?.toLowerCase() === 'success' || m.status?.toLowerCase() === 'completed' ? 'done' :
-                m.status?.toLowerCase() === 'failed' || m.status?.toLowerCase() === 'error' ? 'error' : 'processing',
+            status: ['success', 'completed', 'text_success', 'first_success'].includes(m.status?.toLowerCase()) ? 'done' :
+                ['failed', 'error', 'create_task_failed'].includes(m.status?.toLowerCase()) ? 'error' : 'processing',
             url: m.audio_url,
             imageUrl: m.image_url,
-            credits: 5 // Default for Suno
+            credits: m.cost || 5
         }))
 
         // Fetch other generations (images, videos)
-        const { data: generations, error: genError } = await supabase
+        const { data: generations, error: genError } = await supabaseAdmin
             .from('generations')
             .select('*')
-            .eq('user_id', userId)
+            .eq('user_id', user.id)
             .order('created_at', { ascending: false })
 
         if (genError) {
@@ -54,14 +62,14 @@ export async function GET(req: NextRequest) {
         const genAssets = (generations || []).map(i => ({
             id: i.id || i.task_id,
             type: i.type || 'image',
-            prompt: i.prompt || 'Sem descrição',
-            title: i.prompt ? i.prompt.slice(0, 40) + '...' : 'Geração',
+            prompt: i.prompt || 'Sem descricao',
+            title: i.prompt ? i.prompt.slice(0, 40) + '...' : 'Geracao',
             createdAt: i.created_at,
             status: i.status?.toLowerCase() === 'completed' || i.status?.toLowerCase() === 'success' ? 'done' :
                 i.status?.toLowerCase() === 'failed' || i.status?.toLowerCase() === 'error' ? 'error' : 'processing',
             url: i.result_url,
-            imageUrl: i.result_url, // For visual preview in the gallery
-            credits: i.cost || 1 // Actual DB cost or default fallback
+            imageUrl: i.result_url,
+            credits: i.cost || 1
         }))
 
         const allAssets = [...musicAssets, ...genAssets].sort((a, b) =>
@@ -77,74 +85,71 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
     try {
-        const url = new URL(req.url);
-        const assetId = url.searchParams.get('id');
-        const userId = url.searchParams.get('user_id');
-
-        if (!assetId || !userId) {
-            return NextResponse.json(
-                { error: 'Missing id or user_id query parameters.' },
-                { status: 400 }
-            );
+        const user = await getAuthUser()
+        if (!user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        let deleted = false;
+        const url = new URL(req.url)
+        const assetId = url.searchParams.get('id')
+
+        if (!assetId) {
+            return NextResponse.json({ error: 'Missing id parameter.' }, { status: 400 })
+        }
+
+        let deleted = false
 
         // Try generations table (for image/video)
-        const { data: genData, error: genError } = await supabase
+        const { data: genData } = await supabaseAdmin
             .from('generations')
             .delete()
             .eq('id', assetId)
-            .eq('user_id', userId)
-            .select();
+            .eq('user_id', user.id)
+            .select()
 
         if (genData && genData.length > 0) {
-            deleted = true;
+            deleted = true
         } else {
-            // Try generated_musics or generations if it was fallbacked
-            const { data: musicData, error: musicError } = await supabase
+            // Try generated_musics
+            const { data: musicData } = await supabaseAdmin
                 .from('generated_musics')
                 .delete()
                 .eq('id', assetId)
-                .eq('user_id', userId)
-                .select();
-                
+                .eq('user_id', user.id)
+                .select()
+
             if (musicData && musicData.length > 0) {
-                 deleted = true;
+                deleted = true
             } else {
-                 // Try if it was saved as task_id in generations
-                 const { data: genTaskData } = await supabase
-                     .from('generations')
-                     .delete()
-                     .eq('task_id', assetId)
-                     .eq('user_id', userId)
-                     .select();
-                 
-                 if (genTaskData && genTaskData.length > 0) deleted = true;
-                 
-                  // Try if it was saved as task_id in musics
-                 const { data: musicTaskData } = await supabase
-                     .from('generated_musics')
-                     .delete()
-                     .eq('task_id', assetId)
-                     .eq('user_id', userId)
-                     .select();
-                 
-                  if (musicTaskData && musicTaskData.length > 0) deleted = true;
+                // Try by task_id in generations
+                const { data: genTaskData } = await supabaseAdmin
+                    .from('generations')
+                    .delete()
+                    .eq('task_id', assetId)
+                    .eq('user_id', user.id)
+                    .select()
+
+                if (genTaskData && genTaskData.length > 0) deleted = true
+
+                // Try by task_id in musics
+                const { data: musicTaskData } = await supabaseAdmin
+                    .from('generated_musics')
+                    .delete()
+                    .eq('task_id', assetId)
+                    .eq('user_id', user.id)
+                    .select()
+
+                if (musicTaskData && musicTaskData.length > 0) deleted = true
             }
         }
 
         if (deleted) {
-            return NextResponse.json({ success: true, message: 'Asset deleted successfully.' });
+            return NextResponse.json({ success: true })
         } else {
-             return NextResponse.json({ error: 'Asset not found or you do not have permission to delete it.' }, { status: 404 });
+            return NextResponse.json({ error: 'Asset not found.' }, { status: 404 })
         }
-
-    } catch (error: any) {
-        console.error('Delete Asset API Error:', error);
-        return NextResponse.json(
-            { error: 'Internal server error', details: error.message },
-            { status: 500 }
-        );
+    } catch (error) {
+        console.error('Delete Asset API Error:', error)
+        return NextResponse.json({ error: 'Failed to delete asset.' }, { status: 500 })
     }
 }

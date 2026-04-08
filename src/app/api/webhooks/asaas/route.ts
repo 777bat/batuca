@@ -11,12 +11,16 @@ export async function POST(req: Request) {
         const body = await req.json()
         const reqHeaders = await headers()
         
-        // Verifica o token do webhook do Asaas configurado no painel
-        const token = reqHeaders.get('asaas-access-token')
+        // Verifica o token do webhook do Asaas - OBRIGATORIO
         const expectedToken = process.env.ASAAS_WEBHOOK_TOKEN
-        
-        if (expectedToken && token !== expectedToken) {
-            console.error('Asaas Webhook Token inválido')
+        if (!expectedToken) {
+            console.error('ASAAS_WEBHOOK_TOKEN not configured - rejecting webhook')
+            return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 })
+        }
+
+        const token = reqHeaders.get('asaas-access-token')
+        if (token !== expectedToken) {
+            console.error('Asaas Webhook Token invalido')
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 

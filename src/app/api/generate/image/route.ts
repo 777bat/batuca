@@ -1,32 +1,41 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseAdmin = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+)
 
-const KIE_API_KEY = process.env.KIE_API_KEY || ''; // Needs to be added to .env.local
+const KIE_API_KEY = process.env.KIE_API_KEY || '';
+const MAX_PROMPT_LENGTH = 2000;
 
 export async function POST(req: Request) {
     try {
+        // Authenticate user from session
+        const supabase = await createClient()
+        const { data: { user }, error: authError } = await supabase.auth.getUser()
+        if (authError || !user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
         const textPayload = await req.text();
         let body;
         try {
             body = JSON.parse(textPayload);
         } catch (parseErr) {
-            console.error("Failed to parse request JSON. Payload start:", textPayload.substring(0, 200));
             return NextResponse.json({ error: 'Invalid JSON payload received.' }, { status: 400 });
         }
 
-        const { action, prompt, model, aspect_ratio, resolution, output_format, image_input, user_id, task_id } = body
+        const { action, prompt, model, aspect_ratio, resolution, output_format, image_input, task_id } = body
 
         if (action === 'generate') {
-            if (!user_id) {
-                return NextResponse.json({ error: 'User ID is required.' }, { status: 400 })
-            }
             if (!prompt) return NextResponse.json({ error: 'Prompt is required.' }, { status: 400 })
+            if (prompt.length > MAX_PROMPT_LENGTH) {
+                return NextResponse.json({ error: `Prompt excede o limite de ${MAX_PROMPT_LENGTH} caracteres.` }, { status: 400 })
+            }
 
             // 1. Check user credits and Model details
             const modelToUse = model || "flux-2/pro-text-to-image";
@@ -47,7 +56,7 @@ export async function POST(req: Request) {
             const { data: profile, error: profileError } = await supabase
                 .from('profiles')
                 .select('credits')
-                .eq('id', user_id)
+                .eq('id', user.id)
                 .single();
 
             if (profileError || !profile) {
@@ -90,7 +99,7 @@ export async function POST(req: Request) {
                         const ext = mimeType.split('/')[1] || 'png';
                         const fileName = `img2img_${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-                        const { data: uploadData, error: uploadError } = await supabase.storage
+                        const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
                             .from('assets')
                             .upload(fileName, buffer, {
                                 contentType: mimeType,
@@ -102,7 +111,7 @@ export async function POST(req: Request) {
                             return NextResponse.json({ error: 'Failed to process reference image. Please try again.' }, { status: 500 });
                         }
 
-                        const { data: publicUrlData } = supabase.storage.from('assets').getPublicUrl(uploadData.path);
+                        const { data: publicUrlData } = supabaseAdmin.storage.from('assets').getPublicUrl(uploadData.path);
                         finalImageUrls.push(publicUrlData.publicUrl);
                     } else {
                         // It's already a URL
@@ -127,7 +136,7 @@ export async function POST(req: Request) {
                 data = JSON.parse(textData);
             } catch (err) {
                 console.error('Failed to parse JSON response from Kie API. Raw text:', textData);
-                return NextResponse.json({ error: 'Invalid response from Kie API', details: textData.substring(0, 200) }, { status: 500 });
+                return NextResponse.json({ error: 'Falha ao processar resposta da API de imagem.' }, { status: 500 });
             }
 
             if (data.code !== 200 || !data.data?.taskId) {
@@ -142,15 +151,15 @@ export async function POST(req: Request) {
             const { error: deductError } = await supabase
                 .from('profiles')
                 .update({ credits: profile.credits - modelCost })
-                .eq('id', user_id);
+                .eq('id', user.id);
 
             if (deductError) {
                 console.error('Failed to deduct credits:', deductError);
             }
 
-            await supabase.from('generations').insert([{
+            await supabaseAdmin.from('generations').insert([{
                 task_id: newTaskId,
-                user_id: user_id,
+                user_id: user.id,
                 prompt: prompt,
                 model: payload.model,
                 type: 'image',
@@ -213,14 +222,14 @@ export async function POST(req: Request) {
                         }
                     }
 
-                    await supabase.from('generations').update({
+                    await supabaseAdmin.from('generations').update({
                         status: status === 'success' ? 'completed' : 'failed',
                         result_url: imageUrl,
                         completed_at: new Date().toISOString()
                     }).eq('task_id', task_id);
                 } else {
                     // Update state to processing if it changed from pending
-                    await supabase.from('generations').update({
+                    await supabaseAdmin.from('generations').update({
                         status: 'processing'
                     }).eq('task_id', task_id);
                 }
@@ -234,7 +243,7 @@ export async function POST(req: Request) {
     } catch (error: any) {
         console.error('Audio Generate API Error:', error)
         return NextResponse.json(
-            { error: 'Internal server error', details: error.message },
+            { error: 'Internal server error.' },
             { status: 500 }
         )
     }

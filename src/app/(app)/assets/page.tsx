@@ -40,7 +40,7 @@ export default function AssetsPage() {
                 const { data: { user } } = await supabase.auth.getUser()
                 if (!user) return
                 setUserId(user.id)
-                const res = await fetch(`/api/assets?user_id=${user.id}`)
+                const res = await fetch('/api/assets')
                 const data = await res.json()
                 if (Array.isArray(data)) {
                     setAssets(data)
@@ -72,7 +72,7 @@ export default function AssetsPage() {
         }
 
         try {
-            const result = await fetch(`/api/assets?id=${id}&user_id=${userId}`, {
+            const result = await fetch(`/api/assets?id=${id}`, {
                 method: 'DELETE'
             });
 
@@ -403,14 +403,29 @@ export default function AssetsPage() {
                                         </div>
                                         <div className="flex gap-2">
                                             {selectedAsset.url && (
-                                                <a
-                                                    href={selectedAsset.url}
-                                                    download
+                                                <button
+                                                    onClick={async () => {
+                                                        try {
+                                                            const res = await fetch(selectedAsset.url!)
+                                                            const blob = await res.blob()
+                                                            const blobUrl = URL.createObjectURL(blob)
+                                                            const a = document.createElement('a')
+                                                            a.href = blobUrl
+                                                            const ext = selectedAsset.type === 'audio' ? 'mp3' : selectedAsset.type === 'video' ? 'mp4' : 'png'
+                                                            a.download = `${selectedAsset.title || 'asset'}.${ext}`
+                                                            document.body.appendChild(a)
+                                                            a.click()
+                                                            document.body.removeChild(a)
+                                                            URL.revokeObjectURL(blobUrl)
+                                                        } catch {
+                                                            window.open(selectedAsset.url!, '_blank')
+                                                        }
+                                                    }}
                                                     className="p-3 bg-accent hover:bg-accent text-white rounded-xl transition-all shadow-lg shadow-accent/20 flex items-center gap-2 text-sm font-bold"
                                                 >
                                                     <Download className="w-4 h-4" />
                                                     Download
-                                                </a>
+                                                </button>
                                             )}
                                         </div>
                                     </div>

@@ -1,27 +1,28 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseAdmin = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+)
 
-export async function GET(req: Request) {
+export async function GET() {
     try {
-        const { searchParams } = new URL(req.url)
-        const userId = searchParams.get('user_id')
+        const supabase = await createClient()
+        const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-        if (!userId) {
-            return NextResponse.json({ error: 'User ID is required.' }, { status: 400 })
+        if (authError || !user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        const { data: profile, error } = await supabase
+        const { data: profile, error } = await supabaseAdmin
             .from('profiles')
             .select('credits, role')
-            .eq('id', userId)
+            .eq('id', user.id)
             .single()
 
         if (error || !profile) {
-            console.error('Error fetching credits:', error)
             return NextResponse.json({ error: 'Failed to fetch credits.' }, { status: 500 })
         }
 

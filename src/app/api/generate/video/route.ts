@@ -1,32 +1,41 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseAdmin = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+)
 
-const FAL_KEY = process.env.FAL_KEY || ''; // Needs to be added to .env.local
+const FAL_KEY = process.env.FAL_KEY || '';
+const MAX_PROMPT_LENGTH = 2000;
 
 export async function POST(req: Request) {
     try {
+        // Authenticate user from session
+        const supabase = await createClient()
+        const { data: { user }, error: authError } = await supabase.auth.getUser()
+        if (authError || !user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
         const textPayload = await req.text();
         let body;
         try {
             body = JSON.parse(textPayload);
         } catch (parseErr) {
-            console.error("Failed to parse request JSON. Payload start:", textPayload.substring(0, 200));
             return NextResponse.json({ error: 'Invalid JSON payload received.' }, { status: 400 });
         }
 
-        const { action, prompt, model, ratio, duration, user_id, task_id } = body;
+        const { action, prompt, model, ratio, duration, task_id } = body;
 
         if (action === 'generate') {
-            if (!user_id) {
-                return NextResponse.json({ error: 'User ID is required.' }, { status: 400 })
-            }
             if (!prompt) return NextResponse.json({ error: 'Prompt is required.' }, { status: 400 })
+            if (prompt.length > MAX_PROMPT_LENGTH) {
+                return NextResponse.json({ error: `Prompt excede o limite de ${MAX_PROMPT_LENGTH} caracteres.` }, { status: 400 })
+            }
 
             // Fal.ai endpoints:
             // fal-ai/kling-video/v1.6/standard/text-to-video
@@ -52,7 +61,7 @@ export async function POST(req: Request) {
             const { data: profile, error: profileError } = await supabase
                 .from('profiles')
                 .select('credits')
-                .eq('id', user_id)
+                .eq('id', user.id)
                 .single();
 
             if (profileError || !profile) {
@@ -107,15 +116,15 @@ export async function POST(req: Request) {
             const { error: deductError } = await supabase
                 .from('profiles')
                 .update({ credits: profile.credits - modelCost })
-                .eq('id', user_id);
+                .eq('id', user.id);
 
             if (deductError) {
                 console.error('Failed to deduct credits:', deductError);
             }
 
-            await supabase.from('generations').insert([{
+            await supabaseAdmin.from('generations').insert([{
                 task_id: newTaskId,
-                user_id: user_id,
+                user_id: user.id,
                 prompt: prompt,
                 model: modelToUse,
                 type: 'video',
@@ -160,7 +169,7 @@ export async function POST(req: Request) {
                          const resultData = await resResult.json();
                          let videoUrl = resultData?.video?.url || resultData?.url;
                          if (videoUrl) {
-                            await supabase.from('generations').update({
+                            await supabaseAdmin.from('generations').update({
                                 status: 'completed',
                                 result_url: videoUrl,
                                 completed_at: new Date().toISOString()
@@ -195,7 +204,7 @@ export async function POST(req: Request) {
                    videoUrl = resultData.url; 
                 }
 
-                await supabase.from('generations').update({
+                await supabaseAdmin.from('generations').update({
                     status: 'completed',
                     result_url: videoUrl,
                     completed_at: new Date().toISOString()
@@ -203,14 +212,14 @@ export async function POST(req: Request) {
 
                 return NextResponse.json({ code: 200, data: { state: 'success', resultJson: { url: videoUrl } } });
             } else if (falStatus && falStatus.toLowerCase().includes('fail')) {
-                 await supabase.from('generations').update({
+                 await supabaseAdmin.from('generations').update({
                     status: 'failed',
                     completed_at: new Date().toISOString()
                 }).eq('task_id', task_id);
                 
                 return NextResponse.json({ code: 200, data: { state: 'fail' } });
             } else {
-                 await supabase.from('generations').update({
+                 await supabaseAdmin.from('generations').update({
                     status: 'processing'
                 }).eq('task_id', task_id);
 
@@ -223,7 +232,7 @@ export async function POST(req: Request) {
     } catch (error: any) {
         console.error('Video Generate API Error:', error)
         return NextResponse.json(
-            { error: 'Internal server error', details: error.message },
+            { error: 'Internal server error.' },
             { status: 500 }
         )
     }

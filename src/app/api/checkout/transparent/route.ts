@@ -15,7 +15,13 @@ export async function POST(req: Request) {
         const { planId, paymentMethod, cpfCnpj, name, creditCard, address } = body
 
         if (!planId || !paymentMethod || !cpfCnpj || !name) {
-            return NextResponse.json({ error: 'Dados incompletos para gerar a cobrança.' }, { status: 400 })
+            return NextResponse.json({ error: 'Dados incompletos para gerar a cobranca.' }, { status: 400 })
+        }
+
+        // Validate cpfCnpj format (only digits, 11 or 14 chars)
+        const cleanCpfCnpj = cpfCnpj.replace(/\D/g, '')
+        if (cleanCpfCnpj.length !== 11 && cleanCpfCnpj.length !== 14) {
+            return NextResponse.json({ error: 'CPF/CNPJ invalido.' }, { status: 400 })
         }
 
         // Buscar detalhes do plano no banco
@@ -36,7 +42,8 @@ export async function POST(req: Request) {
         }
 
         // 1. Criar ou recuperar o Customer no Asaas
-        const customerSearchRes = await fetch(`${asaasUrl}/customers?cpfCnpj=${cpfCnpj}`, { headers })
+        const searchParams = new URLSearchParams({ cpfCnpj: cleanCpfCnpj })
+        const customerSearchRes = await fetch(`${asaasUrl}/customers?${searchParams}`, { headers })
         
         if (!customerSearchRes.ok) {
             const errData = await customerSearchRes.json()
