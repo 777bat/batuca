@@ -19,13 +19,14 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'SUNO_API_KEY is not configured.' }, { status: 500 })
         }
 
+        // Read body BEFORE accessing cookies to avoid stream conflicts in Next.js 16
+        const body = await req.json()
+
         const supabase = await createClient()
         const { data: { user }, error: authError } = await supabase.auth.getUser()
         if (authError || !user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
-
-        const body = await req.json()
         const { action, prompt, style, task_id, title, customMode, instrumental, model, negativeTags, vocalGender } = body
 
         if (action === 'check') {

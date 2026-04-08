@@ -14,19 +14,19 @@ const MAX_PROMPT_LENGTH = 2000;
 
 export async function POST(req: Request) {
     try {
-        // Authenticate user from session
-        const supabase = await createClient()
-        const { data: { user }, error: authError } = await supabase.auth.getUser()
-        if (authError || !user) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
+        // Read body BEFORE accessing cookies to avoid stream conflicts in Next.js 16
         const textPayload = await req.text();
         let body;
         try {
             body = JSON.parse(textPayload);
         } catch (parseErr) {
             return NextResponse.json({ error: 'Invalid JSON payload received.' }, { status: 400 });
+        }
+
+        const supabase = await createClient()
+        const { data: { user }, error: authError } = await supabase.auth.getUser()
+        if (authError || !user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
         const { action, prompt, model, aspect_ratio, resolution, output_format, image_input, task_id } = body

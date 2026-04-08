@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
     Compass, Wand2, FolderOpen, Settings, LogOut,
     Zap, CreditCard, ChevronLeft, ChevronRight, Image, Video, Music,
-    Cpu, Users, Menu, X, Sparkles
+    Cpu, Users, Menu, X, Sparkles, Activity
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useState, useEffect } from 'react'
@@ -274,6 +274,13 @@ export function Sidebar() {
                             >
                                 <Cpu className="w-4 h-4 flex-shrink-0" style={{ color: '#34d399', opacity: 0.8 }} />
                                 <span className="text-sm font-medium truncate">Modelos IA</span>
+                            </Link>
+                            <Link
+                                href="/admin/logs"
+                                className={`flex items-center gap-3 px-3 py-2 transition-all ${pathname === '/admin/logs' ? 'bg-surface-2 text-primary' : 'text-text-secondary hover:bg-surface-2 hover:text-primary'}`}
+                            >
+                                <Activity className="w-4 h-4 flex-shrink-0" style={{ color: '#f59e0b', opacity: 0.8 }} />
+                                <span className="text-sm font-medium truncate">Logs</span>
                             </Link>
                             <Link
                                 href="/admin/settings"
