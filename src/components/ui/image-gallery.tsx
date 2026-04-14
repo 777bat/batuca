@@ -38,7 +38,7 @@ interface ImageGalleryProps {
 
 export function ImageGallery({ items }: ImageGalleryProps) {
   // Use provided items or fallback to a dummy array
-  const displayItems = items || Array.from({ length: 12 }).map((_, i) => ({
+  const displayItems = items || Array.from({ length: 24 }).map((_, i) => ({
     id: String(i),
     type: 'image',
     prompt: 'Sample creation...',
@@ -47,36 +47,31 @@ export function ImageGallery({ items }: ImageGalleryProps) {
     views: Math.floor(Math.random() * 5000),
   }));
 
-  // Distribute items into 3 columns for Masonry effect
-  const columns: GalleryItem[][] = [[], [], []];
+  // Assign fallback Unsplash images if missing
   displayItems.forEach((item, index) => {
-    // If not provided, assign a random recognized unsplash image
     if (!item.src) {
       item.src = STOCK_UNSPLASH[index % STOCK_UNSPLASH.length];
     }
-    columns[index % 3].push(item);
   });
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-start py-8">
-      <div className="mx-auto grid w-full max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {columns.map((col, colIndex) => (
-          <div key={colIndex} className="flex flex-col gap-6">
-            {col.map((item, index) => {
-              // Alternate portrait and landscape dynamically based on position for a true masonry feel
-              const isPortrait = (colIndex + index) % 2 === 0;
-              const ratio = isPortrait ? 3 / 4 : 4 / 3;
+      {/* Full width fluid responsive columns */}
+      <div className="w-full px-4 sm:px-6 lg:px-8 columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-6 space-y-6">
+        {displayItems.map((item, index) => {
+          // Semi-randomize portrait/landscape ratio for masonry feel based on index
+          const isPortrait = index % 3 === 0 || index % 5 === 0;
+          const ratio = isPortrait ? 3 / 4 : 4 / 3;
 
-              return (
-                <ExploreAnimatedCard
-                  key={item.id}
-                  item={item}
-                  ratio={ratio}
-                />
-              );
-            })}
-          </div>
-        ))}
+          return (
+            <div key={item.id} className="break-inside-avoid">
+              <ExploreAnimatedCard
+                item={item}
+                ratio={ratio}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
