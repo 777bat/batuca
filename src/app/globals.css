@@ -30,8 +30,8 @@
   --color-blue: #3b82f6;
   --color-violet: #8b5cf6;
 
-  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-coliner), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-coliner), ui-sans-serif, system-ui, sans-serif;
 
   /* Global border-radius override for modern geometry */
   --radius-sm: 4px;
