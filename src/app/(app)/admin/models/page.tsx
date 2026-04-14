@@ -160,7 +160,7 @@ export default function AdminModelsPage() {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <span className="text-sm font-mono font-bold text-primary bg-background px-3 py-1.5 rounded-none border border-border">
-                                                    ⚡ {model.cost}
+                                                     {model.cost}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-center">

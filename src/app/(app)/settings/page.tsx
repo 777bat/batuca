@@ -217,7 +217,7 @@ export default function SettingsPage() {
                                         </div>
                                         
                                         <div className="bg-surface p-3 border border-border mb-4 text-center">
-                                            <span className="text-sm font-bold text-accent">⚡ {plan.credits} Créditos mensais</span>
+                                            <span className="text-sm font-bold text-accent"> {plan.credits} Créditos mensais</span>
                                         </div>
 
                                         <ul className="space-y-3 mb-8 flex-1">

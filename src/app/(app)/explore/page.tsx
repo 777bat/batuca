@@ -15,18 +15,18 @@ const filters = [
 ]
 
 const demoItems = [
-    { id: '1', type: 'image', prompt: 'Cyberpunk city at sunset, neon lights reflecting on wet streets', author: 'creator1', likes: 342, views: 2109, emoji: '🌆' },
-    { id: '2', type: 'video', prompt: 'Eagle soaring over mountain peaks, slow motion', author: 'creator2', likes: 891, views: 5432, emoji: '🦅', tall: true },
-    { id: '3', type: 'image', prompt: 'Abstract fluid art in deep purple and gold', author: 'creator3', likes: 234, views: 1876, emoji: '🎨' },
-    { id: '4', type: 'audio', prompt: 'Jazz piano trio late night session', author: 'creator4', likes: 156, views: 873, emoji: '🎷' },
-    { id: '5', type: 'image', prompt: 'Magical enchanted forest with glowing mushrooms and fireflies', author: 'creator5', likes: 567, views: 3201, emoji: '🌿', tall: true },
-    { id: '6', type: 'video', prompt: 'Ocean waves crashing on rocky cliffs at golden hour', author: 'creator6', likes: 423, views: 2654, emoji: '🌊' },
-    { id: '7', type: 'image', prompt: 'Portrait of an astronaut in vintage spacesuit on Mars', author: 'creator7', likes: 789, views: 4321, emoji: '👨‍🚀' },
-    { id: '8', type: 'audio', prompt: 'Epic orchestral battle theme with choir', author: 'creator8', likes: 312, views: 1987, emoji: '🎻' },
-    { id: '9', type: 'image', prompt: 'Futuristic Tokyo street food market at night', author: 'creator9', likes: 445, views: 2876, emoji: '🍜', tall: true },
-    { id: '10', type: 'video', prompt: 'Time lapse of Northern Lights dancing across the sky', author: 'creator10', likes: 1234, views: 8765, emoji: '🌌' },
-    { id: '11', type: 'image', prompt: 'Realistic oil painting of a pirate ship in stormy seas', author: 'creator11', likes: 298, views: 1654, emoji: '⛵' },
-    { id: '12', type: 'audio', prompt: 'Chill lo-fi beats with rain sounds and smooth piano', author: 'creator12', likes: 876, views: 6543, emoji: '☕' },
+    { id: '1', type: 'image', prompt: 'Cyberpunk city at sunset, neon lights reflecting on wet streets', author: 'creator1', likes: 342, views: 2109, emoji: '' },
+    { id: '2', type: 'video', prompt: 'Eagle soaring over mountain peaks, slow motion', author: 'creator2', likes: 891, views: 5432, emoji: '', tall: true },
+    { id: '3', type: 'image', prompt: 'Abstract fluid art in deep purple and gold', author: 'creator3', likes: 234, views: 1876, emoji: '' },
+    { id: '4', type: 'audio', prompt: 'Jazz piano trio late night session', author: 'creator4', likes: 156, views: 873, emoji: '' },
+    { id: '5', type: 'image', prompt: 'Magical enchanted forest with glowing mushrooms and fireflies', author: 'creator5', likes: 567, views: 3201, emoji: '', tall: true },
+    { id: '6', type: 'video', prompt: 'Ocean waves crashing on rocky cliffs at golden hour', author: 'creator6', likes: 423, views: 2654, emoji: '' },
+    { id: '7', type: 'image', prompt: 'Portrait of an astronaut in vintage spacesuit on Mars', author: 'creator7', likes: 789, views: 4321, emoji: '‍' },
+    { id: '8', type: 'audio', prompt: 'Epic orchestral battle theme with choir', author: 'creator8', likes: 312, views: 1987, emoji: '' },
+    { id: '9', type: 'image', prompt: 'Futuristic Tokyo street food market at night', author: 'creator9', likes: 445, views: 2876, emoji: '', tall: true },
+    { id: '10', type: 'video', prompt: 'Time lapse of Northern Lights dancing across the sky', author: 'creator10', likes: 1234, views: 8765, emoji: '' },
+    { id: '11', type: 'image', prompt: 'Realistic oil painting of a pirate ship in stormy seas', author: 'creator11', likes: 298, views: 1654, emoji: '' },
+    { id: '12', type: 'audio', prompt: 'Chill lo-fi beats with rain sounds and smooth piano', author: 'creator12', likes: 876, views: 6543, emoji: '' },
 ]
 
 const typeBadge: Record<string, { label: string; color: string; border: string; textColor: string }> = {

@@ -329,7 +329,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         >
                             {availableModels.map(m => (
                                 <option key={m.model_id} value={m.model_id}>
-                                    {m.name} (⚡ {m.cost})
+                                    {m.name} ( {m.cost})
                                 </option>
                             ))}
                             {availableModels.length === 0 && <option value="">Carregando modelos...</option>}
@@ -471,7 +471,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         </>
                     )}
                 </button>
-                <p className="text-xs text-center text-text-muted">⚡ 1 crédito por geração</p>
+                <p className="text-xs text-center text-text-muted"> 1 crédito por geração</p>
             </div>
 
             {/* Results area */}
@@ -785,7 +785,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         >
                             {availableModels.map(m => (
                                 <option key={m.model_id || m.id} value={m.model_id || m.id}>
-                                    {m.name || m.label} {m.cost ? `(⚡ ${m.cost})` : ''}
+                                    {m.name || m.label} {m.cost ? `( ${m.cost})` : ''}
                                 </option>
                             ))}
                         </select>
@@ -847,7 +847,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         </>
                     )}
                 </button>
-                <p className="text-xs text-center text-text-muted">⚡ 10 créditos por vídeo de 5s</p>
+                <p className="text-xs text-center text-text-muted"> 10 créditos por vídeo de 5s</p>
             </div>
 
             <div className="flex-1 overflow-y-auto">

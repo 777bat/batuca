@@ -63,7 +63,7 @@ export default function LandingPage() {
       const { data: { user } } = await supabase.auth.getUser()
 
       if (!user) {
-        toast('Crie uma conta para assinar!', { icon: '👋' })
+        toast('Crie uma conta para assinar!')
         router.push('/signup')
         return
       }
@@ -449,7 +449,7 @@ export default function LandingPage() {
                       <ul className="space-y-4 mb-12 flex-grow">
                         {plan.features.map((f, i) => (
                           <li key={i} className="flex items-center gap-3 text-sm" style={{ color: '#E0E0E0' }}>
-                            <span className="text-accent">✓</span> {f}
+                            <span className="text-accent"></span> {f}
                           </li>
                         ))}
                       </ul>
@@ -479,11 +479,11 @@ export default function LandingPage() {
                       <ul className="space-y-4 mb-12 flex-grow">
                         {['10 Gerações / dia', 'Resolução Padrão'].map(f => (
                           <li key={f} className="flex items-center gap-3 text-sm" style={{ color: '#E0E0E0' }}>
-                            <span className="text-accent">✓</span> {f}
+                            <span className="text-accent"></span> {f}
                           </li>
                         ))}
                         <li className="flex items-center gap-3 text-sm line-through" style={{ color: '#444' }}>
-                          <span>✕</span> Fila de Prioridade
+                          <span></span> Fila de Prioridade
                         </li>
                       </ul>
                       <Link href="/signup"
@@ -509,7 +509,7 @@ export default function LandingPage() {
                       <ul className="space-y-4 mb-12 flex-grow">
                         {['Gerações Ilimitadas', 'Exportação em 4K Ultra-HD', 'Direitos Comerciais', 'Processamento Prioritário'].map(f => (
                           <li key={f} className="flex items-center gap-3 text-sm" style={{ color: '#E0E0E0' }}>
-                            <span className="text-accent">✓</span> {f}
+                            <span className="text-accent"></span> {f}
                           </li>
                         ))}
                       </ul>
@@ -529,7 +529,7 @@ export default function LandingPage() {
                       <ul className="space-y-4 mb-12 flex-grow">
                         {['Acesso à API', 'Nós de GPU Dedicada', 'Ajuste de Modelos Personalizados', 'Controles Multiusuários'].map(f => (
                           <li key={f} className="flex items-center gap-3 text-sm" style={{ color: '#E0E0E0' }}>
-                            <span className="text-accent">✓</span> {f}
+                            <span className="text-accent"></span> {f}
                           </li>
                         ))}
                       </ul>

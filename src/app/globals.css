@@ -16,13 +16,13 @@
   --color-text-muted: #444444;
 
   /* Brand accent */
-  --color-accent: #FF3366;
-  --color-accent-hover: #FF1A53;
-  --color-accent-glow: rgba(255, 51, 102, 0.25);
-  --color-accent-dim: rgba(255, 51, 102, 0.1);
+  --color-accent: #FF7D80;
+  --color-accent-hover: #FC6A6E;
+  --color-accent-glow: rgba(255, 125, 128, 0.25);
+  --color-accent-dim: rgba(255, 125, 128, 0.1);
 
   /* Secondary accent */
-  --color-neon: #FF3366;
+  --color-neon: #FF7D80;
 
   /* Functional colors */
   --color-green: #10b981;

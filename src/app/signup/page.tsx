@@ -52,7 +52,7 @@ export default function SignupPage() {
                     <div className="w-20 h-20 bg-background flex items-center justify-center mx-auto mb-6">
                         <img src="/logo.png" alt="batuca.ia" className="w-full h-full object-contain" />
                     </div>
-                    <h2 className="font-heading text-4xl font-bold text-white mb-3">Conta criada! 🎉</h2>
+                    <h2 className="font-heading text-4xl font-bold text-white mb-3">Conta criada! </h2>
                     <p className="text-text-secondary font-medium text-lg">Redirecionando para o estúdio...</p>
                 </motion.div>
             </div>
