@@ -186,7 +186,7 @@ export default function LandingPage() {
               </p>
 
               {/* Chat Input Box */}
-              <div className="w-full max-w-3xl rounded-none overflow-hidden shadow-2xl transition-all duration-500 animate-fade-in-up delay-400 bg-black/40 backdrop-blur-xl border border-white/10"
+              <div className="w-full max-w-3xl rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 animate-fade-in-up delay-400 bg-black/40 backdrop-blur-xl border border-white/10"
                 style={{
                   opacity: 0,
                   animationFillMode: 'forwards',
@@ -215,7 +215,7 @@ export default function LandingPage() {
                   </div>
                   <Link
                     href="/login"
-                    className="flex items-center justify-center gap-3 h-12 px-8 font-bold text-xs tracking-widest uppercase transition-all duration-300 text-black bg-white hover:bg-accent hover:text-white font-heading"
+                    className="flex items-center justify-center gap-3 h-12 px-8 rounded-2xl font-bold text-xs tracking-widest uppercase transition-all duration-300 text-black bg-white hover:bg-accent hover:text-white font-heading"
                   >
                     <span>Começar</span>
                     <span>→</span>
@@ -258,7 +258,7 @@ export default function LandingPage() {
 
           {/* Feature Grid */}
           <section id="features" className="py-24 px-6 md:px-12 lg:px-24 bg-background">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-0 border-y border-border">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-border border border-border rounded-3xl overflow-hidden">
               {[
                 {
                   icon: <Film size={24} />,
@@ -277,11 +277,8 @@ export default function LandingPage() {
                 },
               ].map((f, i) => (
                 <div key={i}
-                  className="reveal p-10 md:p-12 flex flex-col transition-colors"
-                  style={{
-                    borderRight: i < 2 ? '1px solid #444' : undefined,
-                    borderBottom: '0',
-                  }}
+                  className="reveal p-10 md:p-12 flex flex-col transition-colors bg-[#030303]"
+                  style={{}}
                   onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#0A0A0A')}
                   onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}>
                   <div className="mb-6 flex items-center justify-center w-12 h-12 bg-surface text-accent border border-border">
@@ -325,7 +322,7 @@ export default function LandingPage() {
                       ))}
                     </ul>
                   </div>
-                  <div className="order-1 lg:order-2 aspect-video relative overflow-hidden group"
+                  <div className="order-1 lg:order-2 aspect-video relative overflow-hidden group rounded-3xl"
                     style={{ backgroundColor: '#0A0A0A', border: '1px solid #444' }}>
                     <img
                       alt="Cinematic video synthesis"
@@ -337,7 +334,7 @@ export default function LandingPage() {
 
                 {/* Image Tool */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center reveal">
-                  <div className="aspect-square relative overflow-hidden group"
+                  <div className="aspect-square relative overflow-hidden group rounded-3xl"
                     style={{ backgroundColor: '#0A0A0A', border: '1px solid #444' }}>
                     <img
                       alt="Neural diffusion rendering"
@@ -377,7 +374,7 @@ export default function LandingPage() {
                       ))}
                     </ul>
                   </div>
-                  <div className="order-1 lg:order-2 aspect-video relative overflow-hidden group flex items-center justify-center text-accent"
+                  <div className="order-1 lg:order-2 aspect-video relative overflow-hidden group flex items-center justify-center text-accent rounded-3xl"
                     style={{ backgroundColor: '#0A0A0A', border: '1px solid #444' }}>
                     <div className="opacity-60 transition-all duration-700 group-hover:opacity-100 group-hover:scale-110">
                        <Music size={64} />
@@ -405,7 +402,7 @@ export default function LandingPage() {
                   { icon: <Megaphone size={40} />, title: 'Marketing Ágil', desc: 'Crie ativos de campanha hiper-direcionados para mídias sociais e outdoors digitais em uma fração do tempo.' },
                   { icon: <PenTool size={40} />, title: 'Design e Visualização', desc: 'Visualize conceitos arquitetônicos e designs de produtos com iluminação atmosférica e texturas realistas.' },
                 ].map((c, i) => (
-                  <div key={i} className="reveal p-8 transition-colors"
+                  <div key={i} className="reveal p-8 transition-colors rounded-3xl"
                     style={{ border: '1px solid #444', backgroundColor: '#030303' }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = '#BFA2FE')}
                     onMouseLeave={e => (e.currentTarget.style.borderColor = '#444')}>
@@ -428,7 +425,7 @@ export default function LandingPage() {
                 <p className="font-light" style={{ color: '#E0E0E0' }}>Planos flexíveis desenhados para escalar com a sua ambição.</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ backgroundColor: '#444', border: '1px solid #444' }}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-px rounded-3xl overflow-hidden" style={{ backgroundColor: '#444', border: '1px solid #444' }}>
                 {plans.length > 0 ? (
                   plans.map((plan) => (
                     <div key={plan.id} className={`p-12 flex flex-col reveal relative ${plan.is_popular ? 'bg-[#0A0A0A]' : 'bg-[#030303]'}`}>
@@ -459,7 +456,7 @@ export default function LandingPage() {
                       <button
                         onClick={() => handleSelectPlan(plan)}
                         disabled={loadingCheckout !== null}
-                        className={`w-full py-4 text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 block flex items-center justify-center gap-2 ${plan.is_popular ? 'bg-accent text-white hover:opacity-90' : 'text-white border border-[#444] hover:bg-white hover:text-black'}`}
+                        className={`w-full py-4 rounded-2xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 block flex items-center justify-center gap-2 ${plan.is_popular ? 'bg-accent text-white hover:opacity-90' : 'text-white border border-[#444] hover:bg-white hover:text-black'}`}
                         style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                         {loadingCheckout === plan.id ? (
                           <RefreshCw className="w-4 h-4 animate-spin" />
@@ -490,7 +487,7 @@ export default function LandingPage() {
                         </li>
                       </ul>
                       <Link href="/signup"
-                        className="w-full py-4 text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block"
+                        className="w-full py-4 rounded-2xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block"
                         style={{ border: '1px solid #444', fontFamily: "'Space Grotesk', sans-serif" }}
                         onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.color = 'black' }}
                         onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'white' }}>
@@ -517,7 +514,7 @@ export default function LandingPage() {
                         ))}
                       </ul>
                       <Link href="/signup"
-                        className="w-full py-4 text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block hover:opacity-90 bg-accent"
+                        className="w-full py-4 rounded-2xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block hover:opacity-90 bg-accent"
                         style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                         Assinar Plano
                       </Link>
@@ -537,7 +534,7 @@ export default function LandingPage() {
                         ))}
                       </ul>
                       <Link href="/signup"
-                        className="w-full py-4 text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block"
+                        className="w-full py-4 rounded-2xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block"
                         style={{ border: '1px solid #444', fontFamily: "'Space Grotesk', sans-serif" }}
                         onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.color = 'black' }}
                         onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'white' }}>
@@ -560,7 +557,7 @@ export default function LandingPage() {
               { icon: <FileText size={20} />, link: '#' }
             ].map((item, i) => (
               <a key={i} href={item.link}
-                className="transition-colors flex items-center justify-center rounded border border-[#444] p-3 hover:border-accent hover:text-accent"
+                className="transition-colors flex items-center justify-center rounded-3xl border border-[#444] p-3 hover:border-accent hover:text-accent"
                 style={{ color: '#444' }}
               >
                 {item.icon}

@@ -33,14 +33,14 @@
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
 
-  /* Global zero border-radius override for precise geometry */
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-2xl: 0px;
-  --radius-3xl: 0px;
-  --radius-full: 0px;
+  /* Global border-radius override for modern geometry */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-full: 9999px;
 }
 
 * {
@@ -156,7 +156,7 @@ h6 {
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border-radius: 0px;
+  border-radius: 8px;
   transition: all 0.2s ease;
   cursor: pointer;
   border: 1px solid transparent;
@@ -190,7 +190,7 @@ h6 {
 .input {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 0px;
+  border-radius: 8px;
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   font-size: 15px;
@@ -216,7 +216,7 @@ h6 {
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 0px;
+  border-radius: 12px;
   transition: all 0.25s ease;
 }
 
@@ -243,7 +243,7 @@ h6 {
 .modal-content {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 0px;
+  border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
