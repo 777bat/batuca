@@ -38,7 +38,7 @@ interface ImageGalleryProps {
 
 export function ImageGallery({ items }: ImageGalleryProps) {
   // Use provided items or fallback to a dummy array
-  const displayItems = items || Array.from({ length: 24 }).map((_, i) => ({
+  const displayItems: GalleryItem[] = items || Array.from({ length: 24 }).map((_, i) => ({
     id: String(i),
     type: 'image',
     prompt: 'Sample creation...',
