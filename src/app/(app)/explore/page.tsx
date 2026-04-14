@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Heart, Download, Eye, Video, Image, Music, TrendingUp, Clock, Star, Flame } from 'lucide-react'
-
+import { Search, Video, Image, Music, TrendingUp, Clock, Star, Flame } from 'lucide-react'
+import { ImageGallery } from '@/components/ui/image-gallery'
 const filters = [
     { id: 'all', label: 'Todos', icon: Flame },
     { id: 'trending', label: 'Trending', icon: TrendingUp },
@@ -29,107 +29,9 @@ const demoItems = [
     { id: '12', type: 'audio', prompt: 'Chill lo-fi beats with rain sounds and smooth piano', author: 'creator12', likes: 876, views: 6543, emoji: '' },
 ]
 
-const typeBadge: Record<string, { label: string; color: string; border: string; textColor: string }> = {
-    image: {
-        label: 'Imagem',
-        color: 'rgba(59,130,246,0.1)',
-        border: 'rgba(59,130,246,0.25)',
-        textColor: '#60a5fa'
-    },
-    video: {
-        label: 'Vídeo',
-        color: 'rgba(139,92,246,0.1)',
-        border: 'rgba(139,92,246,0.25)',
-        textColor: '#a78bfa'
-    },
-    audio: {
-        label: 'Música',
-        color: 'rgba(16,185,129,0.1)',
-        border: 'rgba(16,185,129,0.25)',
-        textColor: '#34d399'
-    },
-}
+// Cleaned unused variables
 
-const typeGradient: Record<string, string> = {
-    image: 'from-blue-950 to-indigo-950',
-    video: 'from-violet-950 to-purple-950',
-    audio: 'from-emerald-950 to-teal-950',
-}
-
-function TypeIcon({ type, size }: { type: string; size: number }) {
-    const cls = `w-${size} h-${size}`
-    if (type === 'image') return <Image className={cls} />
-    if (type === 'video') return <Video className={cls} />
-    return <Music className={cls} />
-}
-
-function ExploreCard({ item, index }: { item: typeof demoItems[0]; index: number }) {
-    const [liked, setLiked] = useState(false)
-    const badge = typeBadge[item.type]
-    const gradient = typeGradient[item.type]
-
-    return (
-        <motion.article
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: index * 0.04, ease: [0.4, 0, 0.2, 1] }}
-            className="masonry-item"
-        >
-            <div className="group relative rounded-none overflow-hidden cursor-pointer transition-all duration-300 bg-surface border border-border hover:border-accent hover:shadow-[0_8px_32px_rgba(255,51,102,0.06)]"
-            >
-                {/* Visual area */}
-                <div className={`relative ${item.tall ? 'h-60' : 'h-40'} bg-gradient-to-br ${gradient} flex items-center justify-center`}>
-                    <span className="text-5xl drop-shadow-lg">{item.emoji}</span>
-
-                    <div className="absolute top-2.5 left-2.5">
-                        <span
-                            className="flex items-center gap-1.5 px-2 py-1 rounded-none text-[10px] font-bold uppercase tracking-wider backdrop-blur-md"
-                            style={{
-                                background: badge.color,
-                                border: `1px solid ${badge.border}`,
-                                color: badge.textColor,
-                            }}
-                        >
-                            <TypeIcon type={item.type} size={3} />
-                            {badge.label}
-                        </span>
-                    </div>
-
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-3">
-                        <button className="p-2.5 rounded-none transition-all bg-white/10 border border-white/15 hover:bg-white/20">
-                            <Eye className="w-4 h-4 text-white" />
-                        </button>
-                        <button className="p-2.5 rounded-none transition-all bg-white/10 border border-white/15 hover:bg-white/20">
-                            <Download className="w-4 h-4 text-white" />
-                        </button>
-                    </div>
-                </div>
-
-                {/* Info */}
-                <div className="p-3.5">
-                    <p className="text-sm leading-relaxed mb-3 line-clamp-2 text-text-secondary">{item.prompt}</p>
-                    <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-text-muted">@{item.author}</span>
-                        <div className="flex items-center gap-3">
-                            <button
-                                onClick={() => setLiked(!liked)}
-                                className={`flex items-center gap-1.5 text-xs transition-colors hover:text-accent ${liked ? 'text-accent' : 'text-text-muted'}`}
-                            >
-                                <Heart className={`w-3.5 h-3.5 ${liked ? 'fill-current' : ''}`} />
-                                <span>{item.likes + (liked ? 1 : 0)}</span>
-                            </button>
-                            <span className="flex items-center gap-1.5 text-xs text-text-muted">
-                                <Eye className="w-3.5 h-3.5" />
-                                {item.views.toLocaleString('pt-BR')}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </motion.article>
-    )
-}
+// Removed ExploreCard component as it is replaced by ImageGallery from ui components
 
 export default function ExplorePage() {
     const [activeFilter, setActiveFilter] = useState('all')
@@ -208,11 +110,8 @@ export default function ExplorePage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="masonry-grid"
                         >
-                            {filtered.map((item, idx) => (
-                                <ExploreCard key={item.id} item={item} index={idx} />
-                            ))}
+                            <ImageGallery items={filtered} />
                         </motion.div>
                     )}
                 </AnimatePresence>
