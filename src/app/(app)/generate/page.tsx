@@ -304,7 +304,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
             {/* Controls panel */}
             <div className="w-80 flex-shrink-0 space-y-4 overflow-y-auto pr-2 pb-20 custom-scrollbar">
                 {/* Prompt */}
-                <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                <div className="bg-surface-2 border border-border rounded-3xl p-4">
                     <label className="text-sm font-medium text-text-secondary block mb-2 flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5" />
                         Prompt
@@ -314,18 +314,18 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         onChange={e => setPrompt(e.target.value)}
                         placeholder="Descreva a imagem que você quer criar..."
                         rows={4}
-                        className="w-full bg-surface border border-border rounded-xl p-3 text-white placeholder-[#555568] text-sm resize-none focus:outline-none focus:border-violet-500 transition-colors"
+                        className="w-full bg-surface border border-border rounded-3xl p-3 text-white placeholder-[#555568] text-sm resize-none focus:outline-none focus:border-violet-500 transition-colors"
                     />
                 </div>
 
                 {/* Model */}
-                <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                <div className="bg-surface-2 border border-border rounded-3xl p-4">
                     <label className="text-sm font-medium text-text-secondary block mb-2">Modelo</label>
                     <div className="relative">
                         <select
                             value={model}
                             onChange={e => setModel(e.target.value)}
-                            className="w-full bg-surface border border-border rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-violet-500 appearance-none cursor-pointer"
+                            className="w-full bg-surface border border-border rounded-3xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-violet-500 appearance-none cursor-pointer"
                         >
                             {availableModels.map(m => (
                                 <option key={m.model_id} value={m.model_id}>
@@ -339,13 +339,13 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 </div>
 
                 {/* Aspect Ratio */}
-                <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                <div className="bg-surface-2 border border-border rounded-3xl p-4">
                     <label className="text-sm font-medium text-text-secondary block mb-2">Proporção</label>
                     <div className="relative">
                         <select
                             value={ratio}
                             onChange={e => setRatio(e.target.value)}
-                            className="w-full bg-surface border border-border rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-violet-500 appearance-none cursor-pointer"
+                            className="w-full bg-surface border border-border rounded-3xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-violet-500 appearance-none cursor-pointer"
                         >
                             {aspectRatios.map(r => (
                                 <option key={r} value={r}>{r}</option>
@@ -358,7 +358,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {/* Advanced */}
                 <button
                     onClick={() => setShowAdvanced(!showAdvanced)}
-                    className="w-full flex items-center justify-between px-4 py-3 bg-surface-2 border border-border rounded-2xl text-sm text-text-secondary hover:text-white transition-colors"
+                    className="w-full flex items-center justify-between px-4 py-3 bg-surface-2 border border-border rounded-3xl text-sm text-text-secondary hover:text-white transition-colors"
                 >
                     <div className="flex items-center gap-2">
                         <Sliders className="w-4 h-4" />
@@ -368,7 +368,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 </button>
 
                 {showAdvanced && (
-                    <div className="bg-surface-2 border border-border rounded-2xl p-4 space-y-4">
+                    <div className="bg-surface-2 border border-border rounded-3xl p-4 space-y-4">
                         <div>
                             <label className="text-sm text-text-secondary block mb-1.5">Prompt negativo</label>
                             <textarea
@@ -376,7 +376,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                 onChange={e => setNegativePrompt(e.target.value)}
                                 placeholder="O que NÃO quer na imagem..."
                                 rows={2}
-                                className="w-full bg-surface border border-border rounded-xl p-3 text-white placeholder-[#555568] text-sm resize-none focus:outline-none focus:border-violet-500 transition-colors"
+                                className="w-full bg-surface border border-border rounded-3xl p-3 text-white placeholder-[#555568] text-sm resize-none focus:outline-none focus:border-violet-500 transition-colors"
                             />
                         </div>
                         {model === 'nano-banana-pro' && (
@@ -388,7 +388,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                             <button
                                                 key={res}
                                                 onClick={() => setResolution(res)}
-                                                className={`py-1.5 rounded-lg text-xs font-medium transition-all ${resolution === res
+                                                className={`py-1.5 rounded-3xl text-xs font-medium transition-all ${resolution === res
                                                     ? 'bg-primary text-black'
                                                     : 'bg-surface border border-border text-text-secondary hover:border-accent hover:text-white'
                                                     }`}
@@ -405,7 +405,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                             <button
                                                 key={fmt}
                                                 onClick={() => setOutputFormat(fmt)}
-                                                className={`py-1.5 rounded-lg text-xs font-medium uppercase transition-all ${outputFormat === fmt
+                                                className={`py-1.5 rounded-3xl text-xs font-medium uppercase transition-all ${outputFormat === fmt
                                                     ? 'bg-primary text-black'
                                                     : 'bg-surface border border-border text-text-secondary hover:border-accent hover:text-white'
                                                     }`}
@@ -420,7 +420,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                         <ImageIcon className="w-3.5 h-3.5" />
                                         Imagem de Referência (Upload)
                                     </label>
-                                    <div className="relative border-2 border-dashed border-border rounded-xl p-4 hover:border-violet-500/50 transition-colors text-center group cursor-pointer bg-surface">
+                                    <div className="relative border-2 border-dashed border-border rounded-3xl p-4 hover:border-violet-500/50 transition-colors text-center group cursor-pointer bg-surface">
                                         <input
                                             type="file"
                                             accept="image/*"
@@ -428,7 +428,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                         />
                                         {imagePreview ? (
-                                            <div className="relative w-full aspect-video rounded-lg overflow-hidden flex items-center justify-center bg-black/20">
+                                            <div className="relative w-full aspect-video rounded-3xl overflow-hidden flex items-center justify-center bg-black/20">
                                                 <img src={imagePreview} alt="Preview" className="max-h-full object-contain" />
                                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                                     <span className="text-white text-xs font-medium">Mudar Imagem</span>
@@ -479,7 +479,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {loading && (
                     <div className="flex items-center justify-center h-64">
                         <div className="text-center">
-                            <div className="w-16 h-16 rounded-2xl bg-surface-2 border border-accent flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <div className="w-16 h-16 rounded-3xl bg-surface-2 border border-accent flex items-center justify-center mx-auto mb-4 pulse-glow">
                                 <Wand2 className="w-8 h-8 text-accent" />
                             </div>
                             <p className="text-white font-medium">Gerando sua imagem...</p>
@@ -495,7 +495,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                 key={img.id || i}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="group relative aspect-square rounded-xl overflow-hidden bg-surface-2 border border-border flex flex-col"
+                                className="group relative aspect-square rounded-3xl overflow-hidden bg-surface-2 border border-border flex flex-col"
                             >
                                 {img.url ? (
                                     <img src={img.url} alt={img.prompt} className="w-full h-full object-cover" />
@@ -524,10 +524,10 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                         </div>
                                         {img.url && (
                                             <div className="flex items-center gap-1">
-                                                <button className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors">
+                                                <button className="p-1.5 rounded-3xl bg-white/10 hover:bg-white/20 text-white transition-colors">
                                                     <Share2 className="w-3.5 h-3.5" />
                                                 </button>
-                                                <a href={img.url} download className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors">
+                                                <a href={img.url} download className="p-1.5 rounded-3xl bg-white/10 hover:bg-white/20 text-white transition-colors">
                                                     <Download className="w-3.5 h-3.5" />
                                                 </a>
                                             </div>
@@ -542,7 +542,7 @@ function ImageGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {results.length === 0 && !loading && (
                     <div className="h-full flex items-center justify-center text-center">
                         <div>
-                            <div className="w-20 h-20 rounded-2xl bg-surface-2 border border-border flex items-center justify-center mx-auto mb-4">
+                            <div className="w-20 h-20 rounded-3xl bg-surface-2 border border-border flex items-center justify-center mx-auto mb-4">
                                 <Image className="w-10 h-10 text-text-muted" />
                             </div>
                             <p className="text-white font-medium">Sua imagem aparecerá aqui</p>
@@ -761,7 +761,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
     return (
         <div className="flex gap-6 h-full">
             <div className="w-80 flex-shrink-0 space-y-4">
-                <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                <div className="bg-surface-2 border border-border rounded-3xl p-4">
                     <label className="text-sm font-medium text-text-secondary block mb-2 flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5" />
                         Prompt
@@ -771,17 +771,17 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                         onChange={e => setPrompt(e.target.value)}
                         placeholder="Descreva o vídeo que você quer criar..."
                         rows={4}
-                        className="w-full bg-surface border border-border rounded-xl p-3 text-white placeholder-[#555568] text-sm resize-none focus:outline-none focus:border-violet-500 transition-colors"
+                        className="w-full bg-surface border border-border rounded-3xl p-3 text-white placeholder-[#555568] text-sm resize-none focus:outline-none focus:border-violet-500 transition-colors"
                     />
                 </div>
 
-                <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                <div className="bg-surface-2 border border-border rounded-3xl p-4">
                     <label className="text-sm font-medium text-text-secondary block mb-2">Modelo</label>
                     <div className="relative">
                         <select
                             value={model}
                             onChange={e => setModel(e.target.value)}
-                            className="w-full bg-surface border border-border rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-violet-500 appearance-none cursor-pointer"
+                            className="w-full bg-surface border border-border rounded-3xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-violet-500 appearance-none cursor-pointer"
                         >
                             {availableModels.map(m => (
                                 <option key={m.model_id || m.id} value={m.model_id || m.id}>
@@ -793,7 +793,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                     </div>
                 </div>
 
-                <div className="bg-surface-2 border border-border rounded-2xl p-4 space-y-4">
+                <div className="bg-surface-2 border border-border rounded-3xl p-4 space-y-4">
                     <div>
                         <label className="text-sm font-medium text-text-secondary block mb-2">Duração</label>
                         <div className="flex gap-2">
@@ -801,7 +801,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                 <button
                                     key={d}
                                     onClick={() => setDuration(d)}
-                                    className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${duration === d
+                                    className={`flex-1 py-2 rounded-3xl text-sm font-medium transition-all ${duration === d
                                         ? 'bg-primary text-black'
                                         : 'bg-surface border border-border text-text-secondary hover:border-violet-500/50'
                                         }`}
@@ -818,7 +818,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                 <button
                                     key={r}
                                     onClick={() => setRatio(r)}
-                                    className={`py-2 rounded-lg text-sm font-medium transition-all ${ratio === r
+                                    className={`py-2 rounded-3xl text-sm font-medium transition-all ${ratio === r
                                         ? 'bg-primary text-black'
                                         : 'bg-surface border border-border text-text-secondary hover:border-violet-500/50'
                                         }`}
@@ -854,7 +854,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {loading && (
                     <div className="flex items-center justify-center h-64">
                         <div className="text-center">
-                            <div className="w-16 h-16 rounded-2xl bg-surface-2 border border-accent flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <div className="w-16 h-16 rounded-3xl bg-surface-2 border border-accent flex items-center justify-center mx-auto mb-4 pulse-glow">
                                 <Video className="w-8 h-8 text-accent" />
                             </div>
                             <p className="text-white font-medium">Gerando seu vídeo...</p>
@@ -875,7 +875,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                  key={vid.id || i}
                                  initial={{ opacity: 0, scale: 0.9 }}
                                  animate={{ opacity: 1, scale: 1 }}
-                                 className="group relative aspect-video rounded-xl overflow-hidden bg-surface-2 border border-border flex flex-col"
+                                 className="group relative aspect-video rounded-3xl overflow-hidden bg-surface-2 border border-border flex flex-col"
                              >
                                  {vid.url ? (
                                     <video 
@@ -923,7 +923,7 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                             )}
                                         </div>
                                         <div className="pointer-events-auto">
-                                             <a href={vid.url} download className="p-1.5 flex items-center justify-center rounded-lg bg-black/40 hover:bg-black/80 text-white transition-colors">
+                                             <a href={vid.url} download className="p-1.5 flex items-center justify-center rounded-3xl bg-black/40 hover:bg-black/80 text-white transition-colors">
                                                  <Download className="w-4 h-4" />
                                              </a>
                                         </div>
@@ -937,13 +937,13 @@ function VideoGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {results.length === 0 && !loading && (
                     <div className="h-full flex items-center justify-center text-center">
                         <div>
-                            <div className="w-20 h-20 rounded-2xl bg-surface-2 border border-border flex items-center justify-center mx-auto mb-4">
+                            <div className="w-20 h-20 rounded-3xl bg-surface-2 border border-border flex items-center justify-center mx-auto mb-4">
                                 <Video className="w-10 h-10 text-text-muted" />
                             </div>
                             <p className="text-white font-medium">Seus vídeos aparecerão aqui</p>
                             <p className="text-text-muted text-sm mt-1">Escolha um modelo e descreva o vídeo</p>
 
-                            <div className="mt-6 flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-3 text-sm text-amber-400 max-w-xs mx-auto">
+                            <div className="mt-6 flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-3xl px-4 py-3 text-sm text-amber-400 max-w-xs mx-auto">
                                 <Info className="w-4 h-4 flex-shrink-0" />
                                 <span>Vídeos demoram mais que imagens. Use prompts curtos e diretos para obter melhores resultados!</span>
                             </div>
@@ -1258,7 +1258,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
         <div className="flex gap-6 h-full">
             <div className="w-80 flex-shrink-0 space-y-4 overflow-y-auto pr-2 pb-10">
                 {/* Custom Mode Toggle */}
-                <div className="bg-surface-2 border border-border rounded-2xl p-4 cursor-pointer hover:border-emerald-500/30 transition-colors" onClick={() => setCustomMode(!customMode)}>
+                <div className="bg-surface-2 border border-border rounded-3xl p-4 cursor-pointer hover:border-emerald-500/30 transition-colors" onClick={() => setCustomMode(!customMode)}>
                     <div className="flex items-center justify-between">
                         <div>
                             <span className="text-sm font-medium text-white block">Modo Avançado</span>
@@ -1272,7 +1272,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
                 {/* Instrumental Toggle (Only in Custom Mode) */}
                 {customMode && (
-                    <div className="bg-surface-2 border border-border rounded-2xl p-4 cursor-pointer hover:border-emerald-500/30 transition-colors" onClick={() => setInstrumental(!instrumental)}>
+                    <div className="bg-surface-2 border border-border rounded-3xl p-4 cursor-pointer hover:border-emerald-500/30 transition-colors" onClick={() => setInstrumental(!instrumental)}>
                         <div className="flex items-center justify-between">
                             <div>
                                 <span className="text-sm font-medium text-white block">Apenas Instrumental</span>
@@ -1287,7 +1287,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
                 {/* Prompt / Lyrics Area */}
                 {(!customMode || !instrumental) && (
-                    <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                    <div className="bg-surface-2 border border-border rounded-3xl p-4">
                         <label className="text-sm font-medium text-text-secondary block mb-2 flex items-center gap-1.5">
                             <Sparkles className="w-3.5 h-3.5" />
                             {customMode ? 'Letra da Música (Lyrics)' : 'Descrição da Música'}
@@ -1298,7 +1298,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                             placeholder={customMode ? "Cole ou escreva a letra da música..." : "Ex: Uma música pop animada sobre a vida na cidade grande..."}
                             rows={customMode ? 6 : 4}
                             maxLength={customMode ? 5000 : 500}
-                            className="w-full bg-surface border border-border rounded-xl p-3 text-white placeholder-[#555568] text-sm resize-none focus:outline-none focus:border-emerald-500 transition-colors"
+                            className="w-full bg-surface border border-border rounded-3xl p-3 text-white placeholder-[#555568] text-sm resize-none focus:outline-none focus:border-emerald-500 transition-colors"
                         />
                         <div className="text-right mt-1">
                             <span className={`text-[10px] ${prompt.length > (customMode ? 5000 : 500) ? 'text-red-400' : 'text-text-muted'}`}>
@@ -1310,7 +1310,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                             <button
                                 onClick={handleGenerateLyrics}
                                 disabled={generatingLyrics || !prompt.trim()}
-                                className="mt-3 w-full bg-surface-3 border border-border hover:border-emerald-500/50 text-emerald-500 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                                className="mt-3 w-full bg-surface-3 border border-border hover:border-emerald-500/50 text-emerald-500 py-2 rounded-3xl text-xs font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
                             >
                                 {generatingLyrics ? (
                                     <>
@@ -1331,7 +1331,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {/* Style & Title (Only in Custom Mode) */}
                 {customMode && (
                     <>
-                        <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                        <div className="bg-surface-2 border border-border rounded-3xl p-4">
                             <label className="text-sm font-medium text-text-secondary block mb-2">Estilo Musical (Gênero, Vibe)</label>
                             <input
                                 type="text"
@@ -1339,7 +1339,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                 onChange={e => setStyle(e.target.value)}
                                 placeholder="Ex: upbeat pop, acoustic guitar, dark synthwave"
                                 maxLength={1000}
-                                className="w-full bg-surface border border-border rounded-xl p-3 text-white placeholder-[#555568] text-sm focus:outline-none focus:border-emerald-500 transition-colors mb-3"
+                                className="w-full bg-surface border border-border rounded-3xl p-3 text-white placeholder-[#555568] text-sm focus:outline-none focus:border-emerald-500 transition-colors mb-3"
                             />
                             {/* Preset buttons */}
                             <div className="flex flex-wrap gap-2">
@@ -1356,7 +1356,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                             }
                                             setStyle(newArr.join(', '));
                                         }}
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${style.includes(s)
+                                        className={`px-3 py-1.5 rounded-3xl text-xs font-medium transition-all ${style.includes(s)
                                             ? 'bg-emerald-600 text-white'
                                             : 'bg-surface border border-border text-text-secondary hover:border-emerald-500/50'
                                             }`}
@@ -1367,7 +1367,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                             </div>
                         </div>
 
-                        <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                        <div className="bg-surface-2 border border-border rounded-3xl p-4">
                             <label className="text-sm font-medium text-text-secondary block mb-2">Título da Música</label>
                             <input
                                 type="text"
@@ -1375,20 +1375,20 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                 onChange={e => setTitle(e.target.value)}
                                 placeholder="Opcional: Meu Hit Número 1"
                                 maxLength={100}
-                                className="w-full bg-surface border border-border rounded-xl p-3 text-white placeholder-[#555568] text-sm focus:outline-none focus:border-emerald-500 transition-colors"
+                                className="w-full bg-surface border border-border rounded-3xl p-3 text-white placeholder-[#555568] text-sm focus:outline-none focus:border-emerald-500 transition-colors"
                             />
                         </div>
                     </>
                 )}
 
                 {/* Model Selection */}
-                <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                <div className="bg-surface-2 border border-border rounded-3xl p-4">
                     <label className="text-sm font-medium text-text-secondary block mb-2">Versao do Modelo</label>
                     <div className="relative">
                         <select
                             value={model}
                             onChange={e => setModel(e.target.value)}
-                            className="w-full bg-surface border border-border rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500 appearance-none cursor-pointer"
+                            className="w-full bg-surface border border-border rounded-3xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500 appearance-none cursor-pointer"
                         >
                             {availableModels.map(m => (
                                 <option key={m.model_id} value={m.model_id}>
@@ -1403,14 +1403,14 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
                 {/* Vocal Gender (Custom Mode only) */}
                 {customMode && !instrumental && (
-                    <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                    <div className="bg-surface-2 border border-border rounded-3xl p-4">
                         <label className="text-sm font-medium text-text-secondary block mb-2">Genero Vocal</label>
                         <div className="flex gap-2">
                             {[{ value: '', label: 'Auto' }, { value: 'm', label: 'Masculino' }, { value: 'f', label: 'Feminino' }].map(opt => (
                                 <button
                                     key={opt.value}
                                     onClick={() => setVocalGender(opt.value as '' | 'm' | 'f')}
-                                    className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all ${vocalGender === opt.value
+                                    className={`flex-1 py-2 rounded-3xl text-xs font-semibold transition-all ${vocalGender === opt.value
                                         ? 'bg-emerald-600 text-white'
                                         : 'bg-surface border border-border text-text-secondary hover:border-emerald-500/50'
                                         }`}
@@ -1424,14 +1424,14 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
 
                 {/* Negative Tags (Custom Mode only) */}
                 {customMode && (
-                    <div className="bg-surface-2 border border-border rounded-2xl p-4">
+                    <div className="bg-surface-2 border border-border rounded-3xl p-4">
                         <label className="text-sm font-medium text-text-secondary block mb-2">Estilos a Evitar</label>
                         <input
                             type="text"
                             value={negativeTags}
                             onChange={e => setNegativeTags(e.target.value)}
                             placeholder="Ex: autotune, screaming, heavy metal"
-                            className="w-full bg-surface border border-border rounded-xl p-3 text-white placeholder-[#555568] text-sm focus:outline-none focus:border-emerald-500 transition-colors"
+                            className="w-full bg-surface border border-border rounded-3xl p-3 text-white placeholder-[#555568] text-sm focus:outline-none focus:border-emerald-500 transition-colors"
                         />
                         <p className="text-[10px] text-text-muted mt-1">Separe por virgula os estilos que nao deseja</p>
                     </div>
@@ -1440,7 +1440,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 <button
                     onClick={handleGenerate}
                     disabled={(customMode ? (!instrumental && !prompt.trim()) || !style.trim() || !title.trim() : !prompt.trim()) || loading}
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all"
+                    className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3.5 rounded-3xl font-semibold flex items-center justify-center gap-2 transition-all"
                 >
                     {loading ? (
                         <>
@@ -1463,7 +1463,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {loading && (
                     <div className="flex items-center justify-center h-64">
                         <div className="text-center">
-                            <div className="w-16 h-16 rounded-2xl bg-surface-2 border border-emerald-500/30 flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <div className="w-16 h-16 rounded-3xl bg-surface-2 border border-emerald-500/30 flex items-center justify-center mx-auto mb-4 pulse-glow">
                                 <Music className="w-8 h-8 text-emerald-400" />
                             </div>
                             <p className="text-white font-medium">Compondo sua música...</p>
@@ -1476,9 +1476,9 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {results.length > 0 && (
                     <div className="flex-1 overflow-y-auto space-y-6 pb-20 custom-scrollbar pr-2">
                         {results.map((track, i) => (
-                            <div key={track.id || track.url || i} className="bg-surface border border-border rounded-xl p-4 flex flex-col gap-4 group hover:border-border transition-all">
+                            <div key={track.id || track.url || i} className="bg-surface border border-border rounded-3xl p-4 flex flex-col gap-4 group hover:border-border transition-all">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0 bg-cover bg-center" style={track.image_url ? { backgroundImage: `url(${track.image_url})` } : {}}>
+                                    <div className="w-12 h-12 rounded-3xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0 bg-cover bg-center" style={track.image_url ? { backgroundImage: `url(${track.image_url})` } : {}}>
                                         {!track.image_url && <Music className="w-6 h-6 text-emerald-500" />}
                                     </div>
                                     <div className="flex-1 min-w-0">
@@ -1494,7 +1494,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                     {track.url && (
                                         <div className="flex gap-2">
                                             <button
-                                                className="p-2.5 bg-surface-2 text-text-secondary hover:bg-surface-3 hover:text-emerald-500 rounded-lg transition-colors"
+                                                className="p-2.5 bg-surface-2 text-text-secondary hover:bg-surface-3 hover:text-emerald-500 rounded-3xl transition-colors"
                                                 onClick={async (e) => {
                                                     e.stopPropagation()
                                                     try {
@@ -1533,7 +1533,7 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                 {results.length === 0 && !loading && (
                     <div className="h-full flex items-center justify-center text-center">
                         <div>
-                            <div className="w-20 h-20 rounded-2xl bg-surface-2 border border-border flex items-center justify-center mx-auto mb-4">
+                            <div className="w-20 h-20 rounded-3xl bg-surface-2 border border-border flex items-center justify-center mx-auto mb-4">
                                 <Music className="w-10 h-10 text-text-muted" />
                             </div>
                             <p className="text-white font-medium">Suas músicas aparecerão aqui</p>
@@ -1591,12 +1591,12 @@ export default function GeneratePage() {
                         </div>
 
                         {/* Tabs */}
-                        <div className="flex items-center gap-1 bg-surface-2 border border-border rounded-xl p-1">
+                        <div className="flex items-center gap-1 bg-surface-2 border border-border rounded-3xl p-1">
                             {tabs.map(tab => (
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === tab.id
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-3xl text-sm font-medium transition-all ${activeTab === tab.id
                                         ? 'bg-primary text-black'
                                         : 'text-text-secondary hover:text-white hover:bg-surface-3'
                                         }`}

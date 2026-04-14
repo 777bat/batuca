@@ -101,7 +101,7 @@ export default function WaveformPlayer({ url }: WaveformPlayerProps) {
 
     if (error) {
         return (
-            <div className="w-full bg-[#111118]/50 border border-red-500/20 rounded-2xl p-4 flex items-center gap-3">
+            <div className="w-full bg-[#111118]/50 border border-red-500/20 rounded-3xl p-4 flex items-center gap-3">
                 <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
                 <span className="text-xs text-red-400">Audio indisponivel - link temporario expirou</span>
             </div>
@@ -109,7 +109,7 @@ export default function WaveformPlayer({ url }: WaveformPlayerProps) {
     }
 
     return (
-        <div className="w-full bg-[#111118]/50 border border-[#2a2a3a] rounded-2xl p-4 flex flex-col gap-3 group/player hover:border-emerald-500/20 transition-all">
+        <div className="w-full bg-[#111118]/50 border border-[#2a2a3a] rounded-3xl p-4 flex flex-col gap-3 group/player hover:border-emerald-500/20 transition-all">
             <div className="flex items-center gap-4">
                 <button
                     onClick={togglePlay}
@@ -128,7 +128,7 @@ export default function WaveformPlayer({ url }: WaveformPlayerProps) {
                 <div className="flex-1 min-w-0 relative">
                     <div ref={containerRef} className="w-full" />
                     {isLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0f]/40 rounded-lg">
+                        <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0f]/40 rounded-3xl">
                             <span className="text-[10px] text-emerald-500/50 uppercase tracking-widest font-bold">Carregando...</span>
                         </div>
                     )}

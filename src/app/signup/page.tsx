@@ -78,10 +78,10 @@ export default function SignupPage() {
                     <p className="text-text-secondary text-base font-medium mt-2">50 créditos grátis para começar</p>
                 </div>
 
-                <div className="glass rounded-none p-8 shadow-2xl">
+                <div className="glass rounded-3xl p-8 shadow-2xl">
                     <form onSubmit={handleSignup} className="space-y-5">
                         {error && (
-                            <div className="bg-red-500/10 border border-red-500/30 rounded-none p-4 text-red-400 text-sm font-medium">
+                            <div className="bg-red-500/10 border border-red-500/30 rounded-3xl p-4 text-red-400 text-sm font-medium">
                                 {error}
                             </div>
                         )}
@@ -96,7 +96,7 @@ export default function SignupPage() {
                                     onChange={e => setName(e.target.value)}
                                     placeholder="Seu nome"
                                     required
-                                    className="w-full bg-surface/50 border border-white/5 rounded-none pl-11 pr-4 py-3.5 text-white placeholder-text-muted text-sm font-medium focus:outline-none focus:border-accent/50 focus:bg-surface transition-all"
+                                    className="w-full bg-surface/50 border border-white/5 rounded-3xl pl-11 pr-4 py-3.5 text-white placeholder-text-muted text-sm font-medium focus:outline-none focus:border-accent/50 focus:bg-surface transition-all"
                                 />
                             </div>
                         </div>
@@ -111,7 +111,7 @@ export default function SignupPage() {
                                     onChange={e => setEmail(e.target.value)}
                                     placeholder="seu@email.com"
                                     required
-                                    className="w-full bg-surface/50 border border-white/5 rounded-none pl-11 pr-4 py-3.5 text-white placeholder-text-muted text-sm font-medium focus:outline-none focus:border-accent/50 focus:bg-surface transition-all"
+                                    className="w-full bg-surface/50 border border-white/5 rounded-3xl pl-11 pr-4 py-3.5 text-white placeholder-text-muted text-sm font-medium focus:outline-none focus:border-accent/50 focus:bg-surface transition-all"
                                 />
                             </div>
                         </div>
@@ -126,7 +126,7 @@ export default function SignupPage() {
                                     onChange={e => setPassword(e.target.value)}
                                     placeholder="Mín. 6 caracteres"
                                     required
-                                    className="w-full bg-surface/50 border border-white/5 rounded-none pl-11 pr-11 py-3.5 text-white placeholder-text-muted text-sm font-medium focus:outline-none focus:border-accent/50 focus:bg-surface transition-all"
+                                    className="w-full bg-surface/50 border border-white/5 rounded-3xl pl-11 pr-11 py-3.5 text-white placeholder-text-muted text-sm font-medium focus:outline-none focus:border-accent/50 focus:bg-surface transition-all"
                                 />
                                 <button
                                     type="button"
@@ -141,10 +141,10 @@ export default function SignupPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-primary hover:bg-transparent border border-primary hover:text-primary disabled:opacity-60 disabled:cursor-not-allowed text-background py-4 rounded-none font-bold text-xs uppercase tracking-widest font-heading transition-all flex items-center justify-center gap-2 mt-4"
+                            className="w-full bg-primary hover:bg-transparent border border-primary hover:text-primary disabled:opacity-60 disabled:cursor-not-allowed text-background py-4 rounded-3xl font-bold text-xs uppercase tracking-widest font-heading transition-all flex items-center justify-center gap-2 mt-4"
                         >
                             {loading ? (
-                                <div className="w-5 h-5 border-2 border-background/30 border-t-background rounded-none animate-spin" />
+                                <div className="w-5 h-5 border-2 border-background/30 border-t-background rounded-3xl animate-spin" />
                             ) : (
                                 <>
                                     <span>Criar conta</span>

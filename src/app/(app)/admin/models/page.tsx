@@ -102,7 +102,7 @@ export default function AdminModelsPage() {
                 </div>
 
                 {/* Filters */}
-                <div className="bg-surface border border-border rounded-none p-4 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg">
+                <div className="bg-surface border border-border rounded-3xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg">
                     <div className="relative w-full md:w-96 group">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted group-focus-within:text-accent transition-colors" />
                         <input
@@ -110,18 +110,18 @@ export default function AdminModelsPage() {
                             placeholder="Buscar modelo..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-background border border-border rounded-none pl-10 pr-4 py-2.5 text-sm text-white placeholder-text-muted focus:outline-none focus:border-accent focus:bg-accent/5 transition-all"
+                            className="w-full bg-background border border-border rounded-3xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-text-muted focus:outline-none focus:border-accent focus:bg-accent/5 transition-all"
                         />
                     </div>
 
-                    <button onClick={fetchModels} className="flex items-center gap-2 px-4 py-2.5 bg-surface-2 hover:bg-white/5 border border-border hover:border-text-secondary rounded-none text-xs uppercase tracking-widest font-heading text-white transition-all">
+                    <button onClick={fetchModels} className="flex items-center gap-2 px-4 py-2.5 bg-surface-2 hover:bg-white/5 border border-border hover:border-text-secondary rounded-3xl text-xs uppercase tracking-widest font-heading text-white transition-all">
                         <RefreshCw className={`w-4 h-4 ${loading && 'animate-spin'}`} />
                         Atualizar
                     </button>
                 </div>
 
                 {/* Table Area */}
-                <div className="bg-surface border border-border rounded-none overflow-hidden shadow-2xl">
+                <div className="bg-surface border border-border rounded-3xl overflow-hidden shadow-2xl">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
@@ -143,7 +143,7 @@ export default function AdminModelsPage() {
                                         <tr key={model.id} className="hover:bg-accent/5 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className={`w-8 h-8 rounded-none border flex items-center justify-center flex-shrink-0
+                                                    <div className={`w-8 h-8 rounded-3xl border flex items-center justify-center flex-shrink-0
                                                         ${model.type === 'image' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' :
                                                             model.type === 'audio' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-violet-500/10 text-violet-400 border-violet-500/30'}
                                                     `}>
@@ -159,22 +159,22 @@ export default function AdminModelsPage() {
                                                 <span className="text-[10px] text-text-secondary uppercase tracking-widest font-bold font-heading">{model.type}</span>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span className="text-sm font-mono font-bold text-primary bg-background px-3 py-1.5 rounded-none border border-border">
+                                                <span className="text-sm font-mono font-bold text-primary bg-background px-3 py-1.5 rounded-3xl border border-border">
                                                      {model.cost}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-center">
                                                 <button
                                                     onClick={() => toggleModelStatus(model.id, model.is_active)}
-                                                    className={`relative inline-flex h-6 w-11 items-center rounded-none transition-colors border focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background ${model.is_active ? 'bg-accent border-accent text-white' : 'bg-transparent border-border'}`}
+                                                    className={`relative inline-flex h-6 w-11 items-center rounded-3xl transition-colors border focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background ${model.is_active ? 'bg-accent border-accent text-white' : 'bg-transparent border-border'}`}
                                                 >
-                                                    <span className={`inline-block h-4 w-4 transform rounded-none bg-white transition-transform ${model.is_active ? 'translate-x-6 bg-white' : 'translate-x-1 bg-text-muted'}`} />
+                                                    <span className={`inline-block h-4 w-4 transform rounded-3xl bg-white transition-transform ${model.is_active ? 'translate-x-6 bg-white' : 'translate-x-1 bg-text-muted'}`} />
                                                 </button>
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 <button
                                                     onClick={() => openEditModal(model)}
-                                                    className="p-2 hover:bg-accent/10 text-text-muted hover:text-accent rounded-none transition-colors inline-block"
+                                                    className="p-2 hover:bg-accent/10 text-text-muted hover:text-accent rounded-3xl transition-colors inline-block"
                                                     title="Modificar Preço"
                                                 >
                                                     <Edit2 className="w-4 h-4" />
@@ -195,7 +195,7 @@ export default function AdminModelsPage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-surface border border-border rounded-none w-full max-w-sm overflow-hidden shadow-2xl"
+                        className="bg-surface border border-border rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl"
                     >
                         <div className="p-6 border-b border-border">
                             <h2 className="text-lg font-bold text-white uppercase tracking-widest font-heading">Configurar Preço</h2>
@@ -209,9 +209,9 @@ export default function AdminModelsPage() {
                                 min="0"
                                 value={editCost}
                                 onChange={(e) => setEditCost(parseInt(e.target.value) || 0)}
-                                className="w-full bg-background border border-border rounded-none px-4 py-3 text-2xl font-bold font-mono text-accent focus:outline-none focus:border-accent focus:bg-accent/5 transition-colors text-center"
+                                className="w-full bg-background border border-border rounded-3xl px-4 py-3 text-2xl font-bold font-mono text-accent focus:outline-none focus:border-accent focus:bg-accent/5 transition-colors text-center"
                             />
-                            <div className="flex items-start gap-2 mt-4 text-text-muted bg-white/5 p-3 rounded-none border border-white/5">
+                            <div className="flex items-start gap-2 mt-4 text-text-muted bg-white/5 p-3 rounded-3xl border border-white/5">
                                 <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0 opacity-50" />
                                 <p className="text-[10px] uppercase tracking-widest font-heading">Essa mudança será propagada nas páginas de criação em tempo real e afetará as APIs no próximo request.</p>
                             </div>
@@ -220,14 +220,14 @@ export default function AdminModelsPage() {
                         <div className="p-4 border-t border-border bg-background flex justify-end gap-3">
                             <button
                                 onClick={() => setSelectedModel(null)}
-                                className="px-4 py-2 rounded-none text-xs uppercase tracking-widest font-heading font-medium text-text-muted hover:text-white hover:bg-white/5 transition-colors border border-transparent hover:border-text-muted"
+                                className="px-4 py-2 rounded-3xl text-xs uppercase tracking-widest font-heading font-medium text-text-muted hover:text-white hover:bg-white/5 transition-colors border border-transparent hover:border-text-muted"
                             >
                                 Cancelar
                             </button>
                             <button
                                 onClick={saveCost}
                                 disabled={saving}
-                                className="flex items-center gap-2 px-6 py-2 rounded-none bg-primary text-black hover:bg-transparent hover:text-primary transition-all disabled:opacity-50 border border-primary text-xs uppercase tracking-widest font-bold font-heading"
+                                className="flex items-center gap-2 px-6 py-2 rounded-3xl bg-primary text-black hover:bg-transparent hover:text-primary transition-all disabled:opacity-50 border border-primary text-xs uppercase tracking-widest font-bold font-heading"
                             >
                                 {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
                                 Salvar Preço

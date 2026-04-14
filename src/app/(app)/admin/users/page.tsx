@@ -106,7 +106,7 @@ export default function AdminUsersPage() {
                 </div>
 
                 {/* Filters */}
-                <div className="bg-surface border border-border rounded-none p-4 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg">
+                <div className="bg-surface border border-border rounded-3xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center shadow-lg">
                     <div className="relative w-full md:w-96 group">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted group-focus-within:text-accent transition-colors" />
                         <input
@@ -114,18 +114,18 @@ export default function AdminUsersPage() {
                             placeholder="Buscar por email, nome ou ID..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-background border border-border rounded-none pl-10 pr-4 py-2.5 text-sm text-white placeholder-text-muted focus:outline-none focus:border-accent focus:bg-accent/5 transition-all"
+                            className="w-full bg-background border border-border rounded-3xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-text-muted focus:outline-none focus:border-accent focus:bg-accent/5 transition-all"
                         />
                     </div>
 
-                    <button onClick={fetchUsers} className="flex items-center gap-2 px-4 py-2.5 bg-surface-2 hover:bg-white/5 border border-border hover:border-text-secondary rounded-none text-xs uppercase tracking-widest font-heading text-white transition-all">
+                    <button onClick={fetchUsers} className="flex items-center gap-2 px-4 py-2.5 bg-surface-2 hover:bg-white/5 border border-border hover:border-text-secondary rounded-3xl text-xs uppercase tracking-widest font-heading text-white transition-all">
                         <RefreshCw className={`w-4 h-4 ${loading && 'animate-spin'}`} />
                         Atualizar
                     </button>
                 </div>
 
                 {/* Table Area */}
-                <div className="bg-surface border border-border rounded-none overflow-hidden shadow-2xl">
+                <div className="bg-surface border border-border rounded-3xl overflow-hidden shadow-2xl">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
@@ -148,7 +148,7 @@ export default function AdminUsersPage() {
                                         <tr key={user.id} className="hover:bg-accent/5 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-none bg-accent/20 text-accent border border-accent/30 flex items-center justify-center font-bold text-xs uppercase flex-shrink-0 font-heading">
+                                                    <div className="w-8 h-8 rounded-3xl bg-accent/20 text-accent border border-accent/30 flex items-center justify-center font-bold text-xs uppercase flex-shrink-0 font-heading">
                                                         {user.email.charAt(0)}
                                                     </div>
                                                     <div className="min-w-0">
@@ -159,7 +159,7 @@ export default function AdminUsersPage() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span className={`inline-flex items-center px-2 py-1 rounded-none text-[10px] uppercase tracking-widest font-bold border font-heading ${user.role === 'admin'
+                                                <span className={`inline-flex items-center px-2 py-1 rounded-3xl text-[10px] uppercase tracking-widest font-bold border font-heading ${user.role === 'admin'
                                                     ? 'bg-red-500/10 text-red-400 border-red-500/20'
                                                     : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                                                     }`}>
@@ -167,7 +167,7 @@ export default function AdminUsersPage() {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span className="text-sm font-mono text-primary bg-background px-2 py-1 rounded-none border border-border font-bold">
+                                                <span className="text-sm font-mono text-primary bg-background px-2 py-1 rounded-3xl border border-border font-bold">
                                                     {user.credits}
                                                 </span>
                                             </td>
@@ -182,7 +182,7 @@ export default function AdminUsersPage() {
                                             <td className="px-6 py-4 text-right">
                                                 <button
                                                     onClick={() => openEditModal(user)}
-                                                    className="p-2 hover:bg-accent/20 text-text-muted hover:text-accent rounded-none transition-colors inline-block"
+                                                    className="p-2 hover:bg-accent/20 text-text-muted hover:text-accent rounded-3xl transition-colors inline-block"
                                                 >
                                                     <Edit2 className="w-4 h-4" />
                                                 </button>
@@ -202,7 +202,7 @@ export default function AdminUsersPage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-surface border border-border rounded-none w-full max-w-md overflow-hidden shadow-2xl"
+                        className="bg-surface border border-border rounded-3xl w-full max-w-md overflow-hidden shadow-2xl"
                     >
                         <div className="p-6 border-b border-border">
                             <h2 className="text-lg font-bold text-white uppercase tracking-widest font-heading">Editar Usuário</h2>
@@ -217,7 +217,7 @@ export default function AdminUsersPage() {
                                     min="0"
                                     value={editCredits}
                                     onChange={(e) => setEditCredits(parseInt(e.target.value) || 0)}
-                                    className="w-full bg-background border border-border rounded-none px-4 py-3 text-white focus:outline-none focus:border-accent focus:bg-accent/5 transition-colors font-mono"
+                                    className="w-full bg-background border border-border rounded-3xl px-4 py-3 text-white focus:outline-none focus:border-accent focus:bg-accent/5 transition-colors font-mono"
                                 />
                                 <p className="text-[10px] uppercase font-bold tracking-widest text-text-muted mt-2 font-heading">Você pode dar ou remover créditos diretamente.</p>
                             </div>
@@ -227,13 +227,13 @@ export default function AdminUsersPage() {
                                 <select
                                     value={editRole}
                                     onChange={(e) => setEditRole(e.target.value)}
-                                    className="w-full bg-background border border-border rounded-none px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors font-heading text-sm"
+                                    className="w-full bg-background border border-border rounded-3xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-colors font-heading text-sm"
                                 >
                                     <option value="user">Usuário Padrão (user)</option>
                                     <option value="admin">Administrador (admin)</option>
                                 </select>
                                 {editRole === 'admin' && (
-                                    <div className="flex items-start gap-2 mt-3 text-red-400 bg-red-400/10 p-3 rounded-none border border-red-500/30">
+                                    <div className="flex items-start gap-2 mt-3 text-red-400 bg-red-400/10 p-3 rounded-3xl border border-red-500/30">
                                         <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                                         <p className="text-[10px] uppercase font-bold tracking-widest font-heading">Aviso: Administradores têm acesso total a este painel e podem modificar saldos e gerar sem limites se implementado.</p>
                                     </div>
@@ -244,14 +244,14 @@ export default function AdminUsersPage() {
                         <div className="p-4 border-t border-border bg-background flex justify-end gap-3">
                             <button
                                 onClick={() => setSelectedUser(null)}
-                                className="px-4 py-2 rounded-none text-xs font-bold uppercase tracking-widest text-text-muted hover:text-white hover:bg-white/5 transition-colors font-heading border border-transparent hover:border-border"
+                                className="px-4 py-2 rounded-3xl text-xs font-bold uppercase tracking-widest text-text-muted hover:text-white hover:bg-white/5 transition-colors font-heading border border-transparent hover:border-border"
                             >
                                 Cancelar
                             </button>
                             <button
                                 onClick={saveChanges}
                                 disabled={saving}
-                                className="flex items-center gap-2 px-6 py-2 rounded-none bg-primary text-black hover:bg-transparent hover:text-primary border border-primary text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-50 font-heading"
+                                className="flex items-center gap-2 px-6 py-2 rounded-3xl bg-primary text-black hover:bg-transparent hover:text-primary border border-primary text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-50 font-heading"
                             >
                                 {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
                                 Salvar Alterações

@@ -169,7 +169,7 @@ export default function CheckoutPage() {
                             <h3 className="text-2xl font-bold text-white">Escaneie o QR Code PIX</h3>
                             <p className="text-text-secondary">Seus créditos serão liberados em menos de 10 segundos após o pagamento.</p>
 
-                            <img src={`data:image/png;base64,${pixQrCode.encodedImage}`} alt="QR Code PIX" className="w-56 h-56 mx-auto rounded-xl border border-white/10" />
+                            <img src={`data:image/png;base64,${pixQrCode.encodedImage}`} alt="QR Code PIX" className="w-56 h-56 mx-auto rounded-3xl border border-white/10" />
 
                             <div className="pt-4">
                                 <p className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">Pix Copia e Cola</p>

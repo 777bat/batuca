@@ -64,7 +64,7 @@ export default function ExplorePage() {
                             value={search}
                             onChange={e => setSearch(e.target.value)}
                             placeholder="Buscar criações..."
-                            className="w-full pl-9 pr-4 py-2.5 rounded-none text-sm outline-none transition-all bg-white/5 border border-border text-white focus:border-accent focus:bg-accent/5 focus:shadow-[0_0_0_3px_rgba(255,51,102,0.1)]"
+                            className="w-full pl-9 pr-4 py-2.5 rounded-3xl text-sm outline-none transition-all bg-white/5 border border-border text-white focus:border-accent focus:bg-accent/5 focus:shadow-[0_0_0_3px_rgba(255,51,102,0.1)]"
                         />
                     </div>
                 </div>
@@ -75,7 +75,7 @@ export default function ExplorePage() {
                         <button
                             key={f.id}
                             onClick={() => setActiveFilter(f.id)}
-                            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-none text-[10px] font-bold uppercase tracking-wider whitespace-nowrap flex-shrink-0 transition-all font-heading border ${activeFilter === f.id
+                            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-3xl text-[10px] font-bold uppercase tracking-wider whitespace-nowrap flex-shrink-0 transition-all font-heading border ${activeFilter === f.id
                                 ? 'bg-accent/10 border-accent text-accent shadow-[0_0_15px_rgba(255,51,102,0.15)]'
                                 : 'bg-surface border-border text-text-muted hover:text-white hover:border-text-secondary'
                                 }`}
@@ -98,7 +98,7 @@ export default function ExplorePage() {
                             exit={{ opacity: 0 }}
                             className="flex flex-col items-center justify-center py-32 text-center"
                         >
-                            <div className="w-16 h-16 rounded-none flex items-center justify-center mb-4 bg-surface border border-border">
+                            <div className="w-16 h-16 rounded-3xl flex items-center justify-center mb-4 bg-surface border border-border">
                                 <Search className="w-7 h-7 text-text-muted" />
                             </div>
                             <p className="text-white font-semibold mb-1 font-heading">Nenhum resultado encontrado</p>

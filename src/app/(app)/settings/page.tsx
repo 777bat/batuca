@@ -197,7 +197,7 @@ export default function SettingsPage() {
                                 <CreditCard className="w-6 h-6 text-accent" /> Upgrade de Plano
                             </h2>
                             <p className="text-sm text-text-secondary mb-8">
-                                Você está atualmente no plano <strong className="text-white uppercase px-2 bg-accent/10 border border-accent/20 rounded-md py-0.5">{profile.subscription_tier}</strong>.
+                                Você está atualmente no plano <strong className="text-white uppercase px-2 bg-accent/10 border border-accent/20 rounded-3xl py-0.5">{profile.subscription_tier}</strong>.
                                 Para desbloquear mais créditos e funcionalidades premium, escolha uma das opções abaixo:
                             </p>
 

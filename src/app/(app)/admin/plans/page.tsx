@@ -136,7 +136,7 @@ export default function AdminPlansPage() {
                     </div>
                     <button
                         onClick={() => openEditModal()}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-primary text-black border border-primary hover:bg-transparent hover:text-primary transition-all rounded-none text-xs font-bold uppercase tracking-widest font-heading shadow-xl"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-primary text-black border border-primary hover:bg-transparent hover:text-primary transition-all rounded-3xl text-xs font-bold uppercase tracking-widest font-heading shadow-xl"
                     >
                         <Plus className="w-4 h-4" />
                         Novo Plano
@@ -158,7 +158,7 @@ export default function AdminPlansPage() {
                                     <p className="text-2xl font-mono text-accent mt-2">${plan.price}<span className="text-xs text-text-muted">/mo</span></p>
                                 </div>
                                 <div className="space-y-4 mb-8 flex-grow">
-                                    <div className="bg-background border border-border p-4 rounded-none">
+                                    <div className="bg-background border border-border p-4 rounded-3xl">
                                         <p className="text-[10px] uppercase font-bold text-text-muted mb-1 font-heading">Créditos p/ Assinatura</p>
                                         <p className="text-lg font-mono text-white font-bold">{plan.credits}</p>
                                     </div>
@@ -168,7 +168,7 @@ export default function AdminPlansPage() {
                                 <div className="flex gap-3 border-t border-border pt-6">
                                     <button
                                         onClick={() => openEditModal(plan)}
-                                        className="flex-1 flex items-center justify-center gap-2 py-2 border border-border rounded-none text-[10px] uppercase font-bold tracking-widest text-white hover:bg-white/5 transition-all"
+                                        className="flex-1 flex items-center justify-center gap-2 py-2 border border-border rounded-3xl text-[10px] uppercase font-bold tracking-widest text-white hover:bg-white/5 transition-all"
                                     >
                                         <Edit2 className="w-3 h-3" />
                                         Editar
@@ -176,7 +176,7 @@ export default function AdminPlansPage() {
                                     <button
                                         onClick={() => deletePlan(plan.id)}
                                         disabled={isDeleting === plan.id}
-                                        className="px-4 py-2 border border-red-500/30 rounded-none text-red-500 hover:bg-red-500/10 transition-all disabled:opacity-50"
+                                        className="px-4 py-2 border border-red-500/30 rounded-3xl text-red-500 hover:bg-red-500/10 transition-all disabled:opacity-50"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>

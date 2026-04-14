@@ -119,23 +119,23 @@ export default function AssetsPage() {
                                 placeholder="Buscar nos prompts..."
                                 value={searchQuery}
                                 onChange={e => setSearchQuery(e.target.value)}
-                                className="bg-surface-2 border border-border rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder-[#555568] focus:outline-none focus:border-accent/50 w-64 transition-all"
+                                className="bg-surface-2 border border-border rounded-3xl pl-10 pr-4 py-2 text-sm text-white placeholder-[#555568] focus:outline-none focus:border-accent/50 w-64 transition-all"
                             />
                         </div>
 
                         <div className="w-px h-6 bg-border" />
 
                         {/* View toggle */}
-                        <div className="flex bg-surface-2 border border-border rounded-xl p-1">
+                        <div className="flex bg-surface-2 border border-border rounded-3xl p-1">
                             <button
                                 onClick={() => setView('grid')}
-                                className={`p-1.5 rounded-lg transition-all ${view === 'grid' ? 'bg-accent text-white shadow-lg' : 'text-text-muted hover:text-text-secondary'}`}
+                                className={`p-1.5 rounded-3xl transition-all ${view === 'grid' ? 'bg-accent text-white shadow-lg' : 'text-text-muted hover:text-text-secondary'}`}
                             >
                                 <Grid className="w-4 h-4" />
                             </button>
                             <button
                                 onClick={() => setView('list')}
-                                className={`p-1.5 rounded-lg transition-all ${view === 'list' ? 'bg-accent text-white shadow-lg' : 'text-text-muted hover:text-text-secondary'}`}
+                                className={`p-1.5 rounded-3xl transition-all ${view === 'list' ? 'bg-accent text-white shadow-lg' : 'text-text-muted hover:text-text-secondary'}`}
                             >
                                 <List className="w-4 h-4" />
                             </button>
@@ -152,7 +152,7 @@ export default function AssetsPage() {
                             <button
                                 key={t}
                                 onClick={() => setTypeFilter(t)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap border ${typeFilter === t
+                                className={`flex items-center gap-2 px-4 py-2 rounded-3xl text-sm font-medium transition-all whitespace-nowrap border ${typeFilter === t
                                     ? 'bg-accent/10 border-violet-500 text-accent shadow-[0_0_20px_rgba(139,92,246,0.1)]'
                                     : 'bg-surface-2 border-border text-text-secondary hover:border-border hover:text-white'
                                     }`}
@@ -200,7 +200,7 @@ export default function AssetsPage() {
                                             exit={{ opacity: 0, scale: 0.9 }}
                                             transition={{ duration: 0.2 }}
                                             onClick={() => asset.status === 'done' && setSelectedAsset(asset)}
-                                            className={`group relative bg-surface-2 border border-border rounded-2xl overflow-hidden hover:border-accent/40 transition-all flex flex-col ${asset.status === 'done' ? 'cursor-pointer' : ''}`}
+                                            className={`group relative bg-surface-2 border border-border rounded-3xl overflow-hidden hover:border-accent/40 transition-all flex flex-col ${asset.status === 'done' ? 'cursor-pointer' : ''}`}
                                         >
                                             <div className={`aspect-square bg-gradient-to-br ${typeBg[asset.type]} flex items-center justify-center relative overflow-hidden`}>
                                                 {asset.imageUrl ? (
@@ -213,7 +213,7 @@ export default function AssetsPage() {
                                                     </div>
                                                 )}
 
-                                                <div className="absolute top-3 left-3 px-2 py-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                                <div className="absolute top-3 left-3 px-2 py-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-3xl text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
                                                     <div className={`w-1.5 h-1.5 rounded-full ${typeColor[asset.type].replace('text', 'bg')}`} />
                                                     {asset.type}
                                                 </div>
@@ -229,7 +229,7 @@ export default function AssetsPage() {
 
                                                 {asset.status === 'done' && (
                                                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                                                        <div className="p-3 rounded-xl bg-accent text-white shadow-xl shadow-accent/20 transform scale-90 group-hover:scale-100 transition-all font-bold text-xs uppercase tracking-widest">
+                                                        <div className="p-3 rounded-3xl bg-accent text-white shadow-xl shadow-accent/20 transform scale-90 group-hover:scale-100 transition-all font-bold text-xs uppercase tracking-widest">
                                                             Visualizar
                                                         </div>
                                                     </div>
@@ -245,7 +245,7 @@ export default function AssetsPage() {
                                                         <Clock className="w-3 h-3" />
                                                         {formatDate(asset.createdAt)}
                                                     </span>
-                                                    <div className="px-2 py-0.5 bg-accent/10 border border-accent/20 rounded-md text-[10px] font-bold text-accent flex items-center gap-1">
+                                                    <div className="px-2 py-0.5 bg-accent/10 border border-accent/20 rounded-3xl text-[10px] font-bold text-accent flex items-center gap-1">
                                                         <Zap className="w-3 h-3" />
                                                         {asset.credits}
                                                     </div>
@@ -272,9 +272,9 @@ export default function AssetsPage() {
                                                 animate={{ opacity: 1, x: 0 }}
                                                 exit={{ opacity: 0, x: 20 }}
                                                 onClick={() => asset.status === 'done' && setSelectedAsset(asset)}
-                                                className={`group bg-surface-2 border border-border rounded-2xl p-4 flex items-center gap-4 hover:border-accent/30 transition-all ${asset.status === 'done' ? 'cursor-pointer' : ''}`}
+                                                className={`group bg-surface-2 border border-border rounded-3xl p-4 flex items-center gap-4 hover:border-accent/30 transition-all ${asset.status === 'done' ? 'cursor-pointer' : ''}`}
                                             >
-                                                <div className={`w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center flex-shrink-0 ${color} group-hover:scale-110 transition-transform`}>
+                                                <div className={`w-12 h-12 rounded-3xl bg-surface border border-border flex items-center justify-center flex-shrink-0 ${color} group-hover:scale-110 transition-transform`}>
                                                     <Icon className="w-6 h-6" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
@@ -290,19 +290,19 @@ export default function AssetsPage() {
                                                 </div>
 
                                                 <div className="flex items-center gap-4">
-                                                    <div className="hidden lg:flex px-2 py-1 bg-surface-3 rounded-lg text-[10px] font-bold text-accent gap-1.5 border border-border">
+                                                    <div className="hidden lg:flex px-2 py-1 bg-surface-3 rounded-3xl text-[10px] font-bold text-accent gap-1.5 border border-border">
                                                         <Zap className="w-3 h-3" />
                                                         {asset.credits} CRÉDITOS
                                                     </div>
 
                                                     {asset.status === 'processing' ? (
-                                                        <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-widest bg-accent/10 px-3 py-1.5 rounded-xl border border-accent/20">
+                                                        <div className="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-widest bg-accent/10 px-3 py-1.5 rounded-3xl border border-accent/20">
                                                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
                                                             Gerando
                                                         </div>
                                                     ) : (
                                                         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
-                                                            <div className="px-3 py-1.5 rounded-xl bg-accent/10 text-accent border border-accent/20 text-[10px] font-bold uppercase tracking-wider">
+                                                            <div className="px-3 py-1.5 rounded-3xl bg-accent/10 text-accent border border-accent/20 text-[10px] font-bold uppercase tracking-wider">
                                                                 Abrir Player
                                                             </div>
                                                         </div>
@@ -365,7 +365,7 @@ export default function AssetsPage() {
 
                             {/* Media content */}
                             <div className="p-6">
-                                <div className={`w-full ${selectedAsset.type === 'audio' ? 'mb-4' : 'aspect-video rounded-2xl overflow-hidden bg-black mb-6'}`}>
+                                <div className={`w-full ${selectedAsset.type === 'audio' ? 'mb-4' : 'aspect-video rounded-3xl overflow-hidden bg-black mb-6'}`}>
                                     {selectedAsset.type === 'audio' ? (
                                         <div className="space-y-4">
                                             <div className="aspect-square w-48 h-48 mx-auto rounded-3xl overflow-hidden bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center border border-emerald-500/20 relative group">
@@ -394,7 +394,7 @@ export default function AssetsPage() {
                                     <div className="flex items-start justify-between gap-4">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
-                                                <span className={`px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-widest border ${typeColor[selectedAsset.type].replace('text', 'border')}/20 ${typeColor[selectedAsset.type]} bg-white/5`}>
+                                                <span className={`px-2 py-0.5 rounded-3xl text-[10px] font-bold uppercase tracking-widest border ${typeColor[selectedAsset.type].replace('text', 'border')}/20 ${typeColor[selectedAsset.type]} bg-white/5`}>
                                                     {selectedAsset.type}
                                                 </span>
                                                 <span className="text-[10px] text-text-muted font-bold uppercase tracking-wider">{formatDate(selectedAsset.createdAt)}</span>
@@ -421,7 +421,7 @@ export default function AssetsPage() {
                                                             window.open(selectedAsset.url!, '_blank')
                                                         }
                                                     }}
-                                                    className="p-3 bg-accent hover:bg-accent text-white rounded-xl transition-all shadow-lg shadow-accent/20 flex items-center gap-2 text-sm font-bold"
+                                                    className="p-3 bg-accent hover:bg-accent text-white rounded-3xl transition-all shadow-lg shadow-accent/20 flex items-center gap-2 text-sm font-bold"
                                                 >
                                                     <Download className="w-4 h-4" />
                                                     Download
@@ -430,7 +430,7 @@ export default function AssetsPage() {
                                         </div>
                                     </div>
 
-                                    <div className="bg-surface-3 border border-border rounded-2xl p-4">
+                                    <div className="bg-surface-3 border border-border rounded-3xl p-4">
                                         <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
                                             <Sparkles className="w-3 h-3 text-accent" />
                                             Prompt Original

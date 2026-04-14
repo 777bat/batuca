@@ -109,7 +109,7 @@ export default function AdminSettingsPage() {
                         return (
                             <div key={tool.id} className={`flex items-center justify-between p-4 border transition-colors ${isActive ? 'bg-accent/5 border-accent/20' : 'bg-background border-white/5'}`}>
                                 <div className="flex items-start gap-4">
-                                    <div className={`p-3 rounded-none flex items-center justify-center border ${isActive ? 'bg-accent text-background border-accent' : 'bg-surface text-text-muted border-white/5'}`}>
+                                    <div className={`p-3 rounded-3xl flex items-center justify-center border ${isActive ? 'bg-accent text-background border-accent' : 'bg-surface text-text-muted border-white/5'}`}>
                                         <Icon className="w-5 h-5" />
                                     </div>
                                     <div>

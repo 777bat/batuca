@@ -208,14 +208,14 @@ export default function LandingPage() {
                       <Link key={label} href="/login"
                         className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase transition-colors text-white/60 hover:text-accent font-heading"
                       >
-                        <span className="flex items-center justify-center p-1 rounded bg-white/5">{icon}</span>
+                        <span className="flex items-center justify-center p-1 rounded-3xl bg-white/5">{icon}</span>
                         <span>{label}</span>
                       </Link>
                     ))}
                   </div>
                   <Link
                     href="/login"
-                    className="flex items-center justify-center gap-3 h-12 px-8 rounded-2xl font-bold text-xs tracking-widest uppercase transition-all duration-300 text-black bg-white hover:bg-accent hover:text-white font-heading"
+                    className="flex items-center justify-center gap-3 h-12 px-8 rounded-3xl font-bold text-xs tracking-widest uppercase transition-all duration-300 text-black bg-white hover:bg-accent hover:text-white font-heading"
                   >
                     <span>Começar</span>
                     <span>→</span>
@@ -456,7 +456,7 @@ export default function LandingPage() {
                       <button
                         onClick={() => handleSelectPlan(plan)}
                         disabled={loadingCheckout !== null}
-                        className={`w-full py-4 rounded-2xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 block flex items-center justify-center gap-2 ${plan.is_popular ? 'bg-accent text-white hover:opacity-90' : 'text-white border border-[#444] hover:bg-white hover:text-black'}`}
+                        className={`w-full py-4 rounded-3xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 block flex items-center justify-center gap-2 ${plan.is_popular ? 'bg-accent text-white hover:opacity-90' : 'text-white border border-[#444] hover:bg-white hover:text-black'}`}
                         style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                         {loadingCheckout === plan.id ? (
                           <RefreshCw className="w-4 h-4 animate-spin" />
@@ -487,7 +487,7 @@ export default function LandingPage() {
                         </li>
                       </ul>
                       <Link href="/signup"
-                        className="w-full py-4 rounded-2xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block"
+                        className="w-full py-4 rounded-3xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block"
                         style={{ border: '1px solid #444', fontFamily: "'Space Grotesk', sans-serif" }}
                         onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.color = 'black' }}
                         onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'white' }}>
@@ -514,7 +514,7 @@ export default function LandingPage() {
                         ))}
                       </ul>
                       <Link href="/signup"
-                        className="w-full py-4 rounded-2xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block hover:opacity-90 bg-accent"
+                        className="w-full py-4 rounded-3xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block hover:opacity-90 bg-accent"
                         style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                         Assinar Plano
                       </Link>
@@ -534,7 +534,7 @@ export default function LandingPage() {
                         ))}
                       </ul>
                       <Link href="/signup"
-                        className="w-full py-4 rounded-2xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block"
+                        className="w-full py-4 rounded-3xl text-center text-xs font-bold tracking-widest uppercase transition-all duration-300 text-white block"
                         style={{ border: '1px solid #444', fontFamily: "'Space Grotesk', sans-serif" }}
                         onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'white'; e.currentTarget.style.color = 'black' }}
                         onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'white' }}>

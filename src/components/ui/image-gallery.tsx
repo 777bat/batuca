@@ -89,7 +89,7 @@ function ExploreAnimatedCard({ item, ratio }: { item: GalleryItem; ratio: number
   };
 
   return (
-    <div className="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-500 bg-surface border border-border hover:border-accent hover:shadow-[0_8px_32px_rgba(255,125,128,0.15)]">
+    <div className="group relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 bg-surface border border-border hover:border-accent hover:shadow-[0_8px_32px_rgba(255,125,128,0.15)]">
       <AspectRatio
         ref={ref}
         ratio={ratio}
