@@ -168,10 +168,14 @@ export default function LandingPage() {
         {/* Hero Section */}
         <main className="flex-grow flex flex-col">
           <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
-            {/* Background */}
-            <div
-              className="absolute inset-0 w-full h-full bg-cover bg-center animate-fade-in"
-              style={{ backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuCGXyi7RIk2zuOZmMwZIqJZXXoqDYFOBFMmMYuoDHW4lpEk5nisue8cXMxZUb_cIDHzkEVKQxBvhlx3uXg468wD7GnqcPr_7dktQJ82DSPKo1oBuBmiSstLb94trzQOVqsB_gL3TnU3QtQEB5iduj2zRU1phU7KoMytE_3tVnqoFiRya7JIJyLDTne_WrDSU5HA_tgJmGSbZZ_yuwgDjikkeMPHHSiZ5S5Wl12V-sKbwJ0GuTRGHA1jvk7dYSoXAAQ3GEu54tYtJqme')` }}
+            {/* Background Video */}
+            <video
+              className="absolute inset-0 w-full h-full object-cover animate-fade-in"
+              src="https://pub-25f362f13fb94d7a85fe7d2ad44eada8.r2.dev/15631616_3840_2160_60fps.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
             />
             <div className="absolute inset-0 bg-black/60" />
 
