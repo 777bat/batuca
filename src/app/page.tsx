@@ -178,11 +178,11 @@ export default function LandingPage() {
             {/* Hero Content */}
             <div className="relative z-10 text-center flex flex-col items-center px-4 w-full max-w-5xl mx-auto">
               <h1 className="text-white text-5xl md:text-7xl font-bold leading-tight tracking-tight mb-4 animate-fade-in-up font-heading">
-                Inspire o Impossível.
+                Inspire o impossível. Sua criatividade, nossa inteligência.
               </h1>
               <p className="text-lg md:text-xl max-w-2xl font-light mb-12 leading-relaxed animate-fade-in-up delay-200 text-text-primary font-heading"
                 style={{ opacity: 0, animationFillMode: 'forwards' }}>
-                O estúdio definitivo para criação de mídias sintéticas.
+                A primeira plataforma brasileira para você criar tudo. Simples, real e em reais.
               </p>
 
               {/* Chat Input Box */}
@@ -262,18 +262,18 @@ export default function LandingPage() {
               {[
                 {
                   icon: <Film size={24} />,
-                  title: 'Vídeo Cinematográfico',
-                  desc: 'Gere sequências de movimento de alta fidelidade com controles avançados de câmera e integração de timeline. Perfeito para cineastas.',
+                  title: 'Vídeos de Cinema',
+                  desc: 'Crie vídeos incríveis como se fossem de filme, só descrevendo o que você quer.',
                 },
                 {
                   icon: <Aperture size={24} />,
-                  title: 'Renderização de Alta Fidelidade',
-                  desc: 'Crie imagens impressionantes e ultrarrealistas. Utilize resoluções precisas e prompts negativos avançados.',
+                  title: 'Imagens Impressionantes',
+                  desc: 'Transforme suas ideias em imagens realistas e de alta qualidade em segundos.',
                 },
                 {
                   icon: <AudioWaveform size={24} />,
-                  title: 'Áudio Atmosférico',
-                  desc: 'Componha ricas paisagens sonoras e faixas musicais complexas usando textos, visualizadas através de ondas sonoras imersivas.',
+                  title: 'Músicas e Sons',
+                  desc: 'Gere músicas, trilhas e efeitos sonoros apenas escrevendo o que você imagina.',
                 },
               ].map((f, i) => (
                 <div key={i}
@@ -301,7 +301,7 @@ export default function LandingPage() {
                   Capacidades
                 </span>
                 <h2 className="text-white text-4xl md:text-5xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  O Motor da Imaginação.
+                  O impossível, agora automatizado.
                 </h2>
               </div>
 
@@ -309,14 +309,14 @@ export default function LandingPage() {
                 {/* Video Tool */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center reveal">
                   <div className="order-2 lg:order-1">
-                    <h3 className="text-white text-3xl font-bold mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Síntese de Vídeo Pro</h3>
+                    <h3 className="text-white text-3xl font-bold mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Vídeos prontos em minutos</h3>
                     <p className="text-lg font-light leading-relaxed mb-8" style={{ color: '#E0E0E0' }}>
-                      Transforme roteiros em cinema. Nossa inteligência artificial entende de física, iluminação e movimento de câmera, entregando sequências 4K prontas para produção.
+                      Escreva uma ideia. Receba um vídeo com qualidade de cinema.
                     </p>
                     <ul className="space-y-4 text-sm tracking-wide" style={{ color: '#E0E0E0' }}>
-                      {['Controle de Câmera Virtual', 'Motor de Consistência de Personagem', 'Renderização de Iluminação Dinâmica'].map(item => (
-                        <li key={item} className="flex items-center gap-3">
-                          <span className="w-1.5 h-1.5 inline-block bg-accent" />
+                      {['Dirija sem câmera — Você decide tudo: enquadramento, movimento e estilo', 'Personagens que não mudam — Mesma aparência, mesma identidade, em qualquer cena', 'Luz de cinema automática — Sem ajustes técnicos. Tudo já sai perfeito'].map(item => (
+                        <li key={item} className="flex items-start gap-3">
+                          <span className="w-1.5 h-1.5 inline-block bg-accent mt-2 shrink-0" />
                           {item}
                         </li>
                       ))}
@@ -343,14 +343,14 @@ export default function LandingPage() {
                     />
                   </div>
                   <div>
-                    <h3 className="text-white text-3xl font-bold mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Renderização por Difusão</h3>
+                    <h3 className="text-white text-3xl font-bold mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Imagens com Qualidade Máxima</h3>
                     <p className="text-lg font-light leading-relaxed mb-8" style={{ color: '#E0E0E0' }}>
-                      Precisão a nível de pixel. Refine cada elemento de suas composições estáticas com feedback em tempo real e ampliação infinita das imagens.
+                      Crie imagens extremamente nítidas e detalhadas, com qualidade profissional em poucos cliques.
                     </p>
                     <ul className="space-y-4 text-sm tracking-wide" style={{ color: '#E0E0E0' }}>
-                      {['Exportação Multi-camadas', 'Síntese de Textura Avançada', 'Geração de Mapa de Profundidade 3D'].map(item => (
-                        <li key={item} className="flex items-center gap-3">
-                          <span className="w-1.5 h-1.5 inline-block bg-accent" />
+                      {['Edição por Camadas — Separe e edite cada parte da imagem com liberdade total como um profissional', 'Texturas Realistas — Adicione detalhes ricos e naturais que deixam tudo mais vivo e convincente', 'Profundidade 3D — Crie imagens com sensação real de profundidade como se você pudesse entrar nelas'].map(item => (
+                        <li key={item} className="flex items-start gap-3">
+                          <span className="w-1.5 h-1.5 inline-block bg-accent mt-2 shrink-0" />
                           {item}
                         </li>
                       ))}
@@ -361,14 +361,14 @@ export default function LandingPage() {
                 {/* Music Tool */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center reveal">
                   <div className="order-2 lg:order-1">
-                    <h3 className="text-white text-3xl font-bold mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Síntese de Áudio Atmosférico</h3>
+                    <h3 className="text-white text-3xl font-bold mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Criação de Músicas e Sons</h3>
                     <p className="text-lg font-light leading-relaxed mb-8" style={{ color: '#E0E0E0' }}>
-                      Componha ricos cenários e faixas musicais complexas. Nossas IAs sintetizam áudios em alta definição, transformando a imaginação pura em realidade sonora.
+                      Transforme ideias em músicas, trilhas e efeitos sonoros prontos para usar.
                     </p>
                     <ul className="space-y-4 text-sm tracking-wide" style={{ color: '#E0E0E0' }}>
-                      {['Separação Multi-faixas', 'Sincronização Dinâmica de Batida', 'Masterização com Qualidade de Estúdio'].map(item => (
-                        <li key={item} className="flex items-center gap-3">
-                          <span className="w-1.5 h-1.5 inline-block bg-accent" />
+                      {['Faixas Separadas — Tenha controle sobre cada elemento do áudio como voz, instrumentos e efeitos', 'Batida Sempre no Tempo — Tudo sincronizado automaticamente para soar perfeito', 'Qualidade de Estúdio — Áudio limpo, equilibrado e pronto para publicação'].map(item => (
+                        <li key={item} className="flex items-start gap-3">
+                          <span className="w-1.5 h-1.5 inline-block bg-accent mt-2 shrink-0" />
                           {item}
                         </li>
                       ))}
