@@ -57,6 +57,7 @@ export default function AdminSettingsPage() {
                 if (error) throw error
             }
 
+            window.dispatchEvent(new Event('app_settings_updated'))
             toast.success('Configurações salvas com sucesso!')
         } catch (err: any) {
             console.error(err)

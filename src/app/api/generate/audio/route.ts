@@ -89,6 +89,12 @@ export async function POST(req: Request) {
             }
 
             if (tracksToSave.length > 0) {
+                // If the clips have different IDs from the parent task_id, we can safely delete the parent placeholder
+                const clipIds = tracksToSave.map(t => t.id).filter(Boolean)
+                if (clipIds.length > 0 && !clipIds.includes(task_id)) {
+                    await supabaseAdmin.from('generated_musics').delete().eq('task_id', task_id)
+                }
+
                 for (const track of tracksToSave) {
                     const trackTitle = track.title || title || prompt?.slice(0, 40) || 'Song'
                     const img = track.imageUrl || track.image_url || ''

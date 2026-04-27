@@ -1125,7 +1125,19 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                                     const filtered = cleanPrev.filter(p => !newTracks.find((n: any) => n.id === p.id));
                                     return [...newTracks, ...filtered];
                                 });
+                            } else if (isFinal) {
+                                // Se finalizou mas não gerou URLs válidas, marca a task original como falha
+                                setResults(prev => {
+                                    const clean = prev.filter(p => p.id !== taskId);
+                                    return [{ id: taskId, url: '', title: 'Erro ao obter áudio (Sem URL)', status: 'FAILED' }, ...clean];
+                                });
                             }
+                        } else if (isFinal) {
+                            // Finalizou mas sem clipes
+                            setResults(prev => {
+                                const clean = prev.filter(p => p.id !== taskId);
+                                return [{ id: taskId, url: '', title: 'Nenhuma música gerada', status: 'FAILED' }, ...clean];
+                            });
                         }
                     } else if (isFailed) {
                         clearInterval(pollId);
@@ -1146,12 +1158,17 @@ function AudioGenerator({ currentCredits, onGenerated, userId }: { currentCredit
                     if (attempts >= maxAttempts) {
                         clearInterval(pollId);
                         setLoading(false);
-                        // Mark as failed in UI when polling times out
-                        setResults(prev => prev.map(p =>
-                            p.id === taskId && ((p as any).status === 'PROCESSING' || (p as any).status === 'PENDING')
-                                ? { ...p, title: p.title?.replace(' (Gerando...)', '') || 'Musica', status: 'FAILED' }
-                                : p
-                        ));
+                        // Timeout: mark placeholder as failed, and any stuck PROCESSING tracks as failed or SUCCESS depending on if they have URL
+                        setResults(prev => prev.map(p => {
+                            if (p.id === taskId && ((p as any).status === 'PROCESSING' || (p as any).status === 'PENDING')) {
+                                return { ...p, title: p.title?.replace(' (Gerando...)', '') || 'Musica', status: 'FAILED' };
+                            }
+                            // Se temos um clipe que ficou preso em PROCESSING mas tem URL, vamos assumir que está tocável
+                            if ((p as any).status === 'PROCESSING') {
+                                return { ...p, status: p.url ? 'SUCCESS' : 'FAILED' };
+                            }
+                            return p;
+                        }));
                         // Also mark as failed in DB
                         fetch('/api/generate/audio', {
                             method: 'POST',
@@ -1550,7 +1567,44 @@ export default function GeneratePage() {
     const [activeTab, setActiveTab] = useState('image')
     const [userCredits, setUserCredits] = useState<number | null>(null)
     const [userId, setUserId] = useState<string | null>(null)
+    const [appSettings, setAppSettings] = useState<{ [key: string]: boolean }>({
+        tool_image_active: true,
+        tool_video_active: true,
+        tool_music_active: true,
+    })
     const supabase = createClient()
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            const { data } = await supabase.from('app_settings').select('key, value')
+            if (data) {
+                const newSettings: any = {}
+                data.forEach((item: any) => {
+                    newSettings[item.key] = item.value === 'true' || item.value === true
+                })
+                setAppSettings(prev => ({ ...prev, ...newSettings }))
+            }
+        }
+        fetchSettings()
+
+        window.addEventListener('app_settings_updated', fetchSettings)
+        return () => window.removeEventListener('app_settings_updated', fetchSettings)
+    }, [supabase])
+
+    const availableTabs = tabs.filter(tab => {
+        if (tab.id === 'image') return appSettings.tool_image_active;
+        if (tab.id === 'video') return appSettings.tool_video_active;
+        if (tab.id === 'audio') return appSettings.tool_music_active;
+        return true;
+    })
+
+    useEffect(() => {
+        if (availableTabs.length > 0 && !availableTabs.find(t => t.id === activeTab)) {
+            setActiveTab(availableTabs[0].id)
+        } else if (availableTabs.length === 0 && activeTab !== '') {
+            setActiveTab('')
+        }
+    }, [availableTabs, activeTab])
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -1591,7 +1645,7 @@ export default function GeneratePage() {
 
                     {/* Tabs */}
                     <div className="flex items-center gap-1 bg-surface-2 border border-border rounded-3xl p-1 w-full sm:w-auto overflow-x-auto">
-                        {tabs.map(tab => (
+                        {availableTabs.map(tab => (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}

@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/tough/Downloads/batuca-your-ai-music-studio-main/src/components/landing/**)",
+      "Read(//c/Users/tough/Downloads/batuca-your-ai-music-studio-main/src/pages/**)",
+      "Read(//c/Users/tough/Downloads/batuca-your-ai-music-studio-main/src/**)",
+      "Read(//c/Users/tough/Downloads/batuca-your-ai-music-studio-main/**)",
+      "Bash(mkdir -p \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai/public/landing\")",
+      "Bash(cp \"c:/Users/tough/Downloads/batuca-your-ai-music-studio-main/src/assets/logo-batuca.svg\" \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai/public/landing/\")",
+      "Bash(cp \"c:/Users/tough/Downloads/batuca-your-ai-music-studio-main/src/assets/logo-batuca-hastes.svg\" \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai/public/landing/\")",
+      "Bash(cp \"c:/Users/tough/Downloads/batuca-your-ai-music-studio-main/src/assets/logo-batuca-circulos.svg\" \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai/public/landing/\")",
+      "Bash(cp \"c:/Users/tough/Downloads/batuca-your-ai-music-studio-main/src/assets/hero-guitarrista.jpg\" \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai/public/landing/\")",
+      "Bash(npx next *)",
+      "Bash(git -C \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai\" add package.json package-lock.json src/app/globals.css src/app/page.tsx public/landing/ src/components/landing/ src/components/ui/accordion.tsx src/components/ui/avatar.tsx src/components/ui/button.tsx src/components/ui/star-button.tsx src/hooks/)",
+      "Bash(git -C c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai commit -m ' *)",
+      "Bash(git -C \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai\" push origin main)",
+      "Bash(git -C \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai\" remote -v)",
+      "Bash(git -C \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai\" config --get credential.helper)",
+      "Bash(git -C \"c:/Users/tough/Documents/projetos/batuca_finaleira/kreative-ai\" log --oneline origin/main..HEAD)"
+    ]
+  }
+}

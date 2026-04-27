@@ -56,7 +56,10 @@ export function Sidebar() {
             }
         }
         fetchSettings()
-    }, [supabase])
+
+        window.addEventListener('app_settings_updated', fetchSettings)
+        return () => window.removeEventListener('app_settings_updated', fetchSettings)
+    }, [pathname, supabase])
 
     useEffect(() => {
         const fetchCredits = async () => {
